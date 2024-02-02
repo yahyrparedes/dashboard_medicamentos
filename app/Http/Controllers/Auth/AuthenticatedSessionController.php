@@ -36,10 +36,23 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         $path = 'login';
+
+        if ($user->hasRole([Constants::ROLE_DOCTOR])) {
+            Auth::guard('web')->logout();
+
+            $request->session()->invalidate();
+
+//            return redirect($path)->with('error', 'No tiene permisos para ingresar al sistema.');
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed'),
+            ]);
+        }
+
+
+
         if ($user->hasRole([Constants::ROLE_ADMIN])) {
             $path= Constants::ROUTE_HOME_ADMIN;
         }
-
 
         return redirect()->intended($path);
     }

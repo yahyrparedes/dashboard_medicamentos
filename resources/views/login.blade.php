@@ -51,7 +51,7 @@
                             <img width="120" src="{{ url('assets/images/logo.svg') }}" alt="logo">
                         </div>
                         <div>
-                            <h3 class="fw-bold">Welcome to Vetra!</h3>
+                            <h3 class="fw-bold">Welcome to LANSIER | Dashboard!</h3>
                             <p class="lead my-5">If you don't have an account, would you like to register right now?</p>
                             <a href="#" class="btn btn-primary">Sign Up</a>
                         </div>

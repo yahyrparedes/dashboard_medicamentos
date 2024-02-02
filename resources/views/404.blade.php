@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>404 - Vetra | HTML Admin Dashboard Template</title>
+    <title>LANSIER Dashboard</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ url("assets/images/favicon.png") }}"/>
