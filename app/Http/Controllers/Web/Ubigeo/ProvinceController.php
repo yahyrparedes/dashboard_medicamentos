@@ -42,7 +42,7 @@ class ProvinceController extends Controller
         ]);
         $department = DB::table('provinces')
             ->where('id', '=', (int)$id)
-            ->update(['active' => $request->get('is_active')]);
+            ->update(['is_active' => $request->get('is_active')]);
 
         return Redirect::back()->with('success', 'Contact updated! ' . $department);
     }

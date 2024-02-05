@@ -55,7 +55,7 @@ class DistrictController extends Controller
         ]);
         $district = DB::table('districts')
             ->where('id', '=', (int)$id)
-            ->update(['active' => $request->get('is_active')]);
+            ->update(['is_active' => $request->get('is_active')]);
 
         return Redirect::back()->with('success', 'Contact updated! ' . $district);
     }
