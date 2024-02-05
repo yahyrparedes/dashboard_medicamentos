@@ -52,6 +52,12 @@ class ReminderController extends Controller
     {
         $data = $request->all();
 
+        if (strlen($data['medication_id']) > 1) {
+            $medicationId = DB::table('medication_types')
+                 ->where('name', 'like', '%'.$data['medication_id'].'%')->first();
+            $data['medication_id'] = $medicationId->id;
+        }
+
         $remainderId = DB::table('reminders')
             ->insertGetId([
                 'user_id' => $data['user_id'],
