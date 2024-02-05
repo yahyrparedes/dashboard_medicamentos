@@ -38,7 +38,7 @@ class DepartmentController extends Controller
         ]);
         $department = DB::table('departments')
             ->where('id', '=', (int)$id)
-            ->update(['is_active' => $request->get('active')]);
+            ->update(['is_active' => $request->get('is_active')]);
 
         return Redirect::back()->with('success', 'Contact updated! ' . $department);
     }

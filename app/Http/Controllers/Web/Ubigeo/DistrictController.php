@@ -51,7 +51,7 @@ class DistrictController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'active' => 'required',
+            'is_active' => 'required',
         ]);
         $district = DB::table('districts')
             ->where('id', '=', (int)$id)

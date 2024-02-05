@@ -38,7 +38,7 @@ class ProvinceController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'active' => 'required',
+            'is_active' => 'required',
         ]);
         $department = DB::table('provinces')
             ->where('id', '=', (int)$id)

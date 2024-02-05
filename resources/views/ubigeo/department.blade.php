@@ -87,7 +87,7 @@
                             <form method="post" action="{{ route('department.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
-                                <input type="text" class="form-control" name="active" value="0" hidden/>
+                                <input type="text" class="form-control" name="is_active" value="0" hidden/>
                                 <button type="submit" rel="tooltip" class="btn btn-danger">
                                     DESACTIVAR
                                 </button>
@@ -96,7 +96,7 @@
                             <form method="post" action="{{ route('department.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
-                                <input type="text" class="form-control" name="active" value="1" hidden/>
+                                <input type="text" class="form-control" name="is_active" value="1" hidden/>
                                 <button type="submit" rel="tooltip" class="btn btn-success">
                                     ACTIVAR
                                 </button>
