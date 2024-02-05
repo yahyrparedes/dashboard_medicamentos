@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\GenderController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\MedicationController;
 use App\Http\Controllers\Api\PharmacyController;
+use App\Http\Controllers\Api\ReminderController;
+use App\Http\Controllers\Api\ReminderDetailController;
 use App\Http\Controllers\Api\UbigeoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,3 +44,16 @@ Route::post('auth/profile', [AuthenticationController::class, 'profile']);
 
 Route::get('pharmacies', [PharmacyController::class, 'list']);
 Route::post('pharmacies/stores', [PharmacyController::class, 'stores']);
+Route::get('pharmacies/store/{id}', [PharmacyController::class, 'detail']);
+
+
+Route::get('reminders', [ReminderController::class, 'list']);
+Route::post('reminder', [ReminderController::class, 'create']);
+Route::delete('reminder/{id}', [ReminderController::class, 'delete']);
+Route::get('reminder/{id}', [ReminderController::class, 'detail']);
+Route::post('reminder/filter', [ReminderController::class, 'filter']);
+
+Route::get('reminder-details', [ReminderDetailController::class, 'list']); // all
+Route::get('reminder-details/{reminder}', [ReminderDetailController::class, 'listByReminder']); // allByReminderId
+Route::post('reminder-detail', [ReminderDetailController::class, 'create']); // create
+Route::get('reminder-detail/{id}', [ReminderDetailController::class, 'detail']); // detail

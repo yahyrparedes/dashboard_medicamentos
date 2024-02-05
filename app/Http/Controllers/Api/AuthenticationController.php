@@ -59,6 +59,7 @@ class AuthenticationController extends Controller
             'document' => $request->document,
             'birthday' => $request->birthday,
             'phone' => $request->phone,
+            'is_active' => true,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -73,7 +74,7 @@ class AuthenticationController extends Controller
             $user->type = Constants::ROLE_PATIENT;
         }
 
-        return response()->json($user);
+        return response()->json($user, 200);
     }
 
     public function login(Request $request): \Illuminate\Http\JsonResponse
@@ -112,16 +113,21 @@ class AuthenticationController extends Controller
 
     public function profile(Request $request): \Illuminate\Http\JsonResponse
     {
-        $user = User::find($request->id)->first();
+
+        $user = User::where( 'id', '=', $request->id)->first();
 
         if ($user == null) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        if ($user->hasRole([Constants::ROLE_DOCTOR])) {
-            $user->type = Constants::ROLE_DOCTOR;
+        if ($user->hasRole([Constants::ROLE_ADMIN])) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         } else {
-            $user->type = Constants::ROLE_PATIENT;
+            if ($user->hasRole([Constants::ROLE_DOCTOR])) {
+                $user->type = Constants::ROLE_DOCTOR;
+            } else {
+                $user->type = Constants::ROLE_PATIENT;
+            }
         }
 
         return response()->json($user);
