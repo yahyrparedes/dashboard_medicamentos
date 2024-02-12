@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('cmp')->default(null)->nullable();
             $table->date('birthday')->nullable();
             $table->string('phone')->nullable();
+            $table->string('ubigeo')->nullable();
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();

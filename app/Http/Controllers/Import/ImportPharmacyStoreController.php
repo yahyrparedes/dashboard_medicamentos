@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Import;
 
-use App\Imports\PharmacyImportClass;
+use App\Http\Controllers\Controller;
+use App\Imports\PharmacyStoreClass;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\HeadingRowImport;
 
-class ExcelImportController extends Controller
+class ImportPharmacyStoreController extends Controller
 {
     public function index()
     {
@@ -31,8 +32,8 @@ class ExcelImportController extends Controller
         // Get the uploaded file
         $file = $request->file('file');
 
-        $headings = (new HeadingRowImport())->toArray($file);
-        Excel::import(new PharmacyImportClass(), $file);
+
+        Excel::import(new PharmacyStoreClass(), $file);
 
         return redirect()->back()->with('success', 'Excel file imported successfully!');
     }

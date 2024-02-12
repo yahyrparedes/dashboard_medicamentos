@@ -25,8 +25,8 @@ class PharmacyController extends Controller
             return response()->json([], 400);
         }
 
+        $medications = $request->medications;
         $pharmacies = $request->pharmacies;
-
         $department_id = $request->department_id;
         $province_id = $request->province_id;
         $district_id = $request->district_id;
@@ -37,6 +37,13 @@ class PharmacyController extends Controller
             ->where('pharmacies_store.is_active', '=', true)
             ->where('pharmacies_store.department_id', '=', $department_id);
 
+        if ($medications != "") {
+            $m = explode(',', trim($medications));
+            $query->join('pharmacies_store_stock', function ($join) use ($m) {
+                $join->on('pharmacies_store_stock.pharmacies_store_id', '=', 'pharmacies_store.id')
+                    ->whereIn('pharmacies_store_stock.medication_id', $m);
+            });
+        }
 
         if ($province_id != 0) {
             $query->where('pharmacies_store.province_id', '=', $province_id);
@@ -55,7 +62,15 @@ class PharmacyController extends Controller
             });
         }
 
+
+
         $list = $query->get();
+
+        if ($list->count() == 0) {
+            return response()->json([], 200);
+        }else {
+
+        }
 
         return response()->json($list);
     }

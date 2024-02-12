@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
 use App\Models\User;
+use App\Models\UserLocation;
 use App\Utils\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Testing\Fluent\Concerns\Has;
@@ -29,6 +29,7 @@ class AuthenticationController extends Controller
                 'document' => ['required'],
                 'birthday' => ['required'],
                 'phone' => ['required'],
+                'ubigeo' => ['required'],
             ]);
         } else {
             $validatedData = Validator::make($request->all(), [
@@ -41,6 +42,7 @@ class AuthenticationController extends Controller
                 'document' => ['required'],
                 'birthday' => ['required'],
                 'phone' => ['required'],
+                'ubigeo' => ['required'],
             ]);
         }
 
@@ -59,6 +61,7 @@ class AuthenticationController extends Controller
             'document' => $request->document,
             'birthday' => $request->birthday,
             'phone' => $request->phone,
+            'ubigeo' => $request->ubigeo,
             'is_active' => true,
             'created_at' => now(),
             'updated_at' => now()
@@ -73,6 +76,14 @@ class AuthenticationController extends Controller
             $user->assignRole(Constants::ROLE_PATIENT);
             $user->type = Constants::ROLE_PATIENT;
         }
+
+//        $location = UserLocation::create([
+//            'user_id' => $user->id,
+//            'department_id' => $request->department_id,
+//            'province_id' => $request->province_id,
+//            'district_id' => $request->district_id,
+//            'is_active' => true,
+//        ]);
 
         return response()->json($user, 200);
     }
@@ -114,7 +125,7 @@ class AuthenticationController extends Controller
     public function profile(Request $request): \Illuminate\Http\JsonResponse
     {
 
-        $user = User::where( 'id', '=', $request->id)->first();
+        $user = User::where('id', '=', $request->id)->first();
 
         if ($user == null) {
             return response()->json(['error' => 'Unauthorized'], 401);

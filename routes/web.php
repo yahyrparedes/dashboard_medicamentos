@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\ExcelImportController;
+use App\Http\Controllers\Import\ImportDoctorController;
+use App\Http\Controllers\Import\ImportMedicationStockController;
+use App\Http\Controllers\Import\ImportPharmacyStoreController;
 use App\Http\Controllers\Web\GenderController;
 use App\Http\Controllers\Web\MedicationController;
 use App\Http\Controllers\Web\MedicationTypeController;
@@ -45,8 +47,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('medication-unit/{id}', [MedicationUnitController::class, 'update'])->name('medication_unit.update');
 
 
-    Route::get('import/pharmacy-import', [ExcelImportController::class, 'index'])->name('import.pharmacy.index');
-    Route::post('import/pharmacy-import', [ExcelImportController::class, 'import'])->name('import.pharmacy.import');
+    Route::get('import/pharmacy-import', [ImportPharmacyStoreController::class, 'index'])->name('import.pharmacy.index');
+    Route::post('import/pharmacy-import', [ImportPharmacyStoreController::class, 'import'])->name('import.pharmacy.import');
+
+    Route::get('import/doctor-import', [ImportDoctorController::class, 'index'])->name('import.doctor.index');
+    Route::post('import/doctor-import', [ImportDoctorController::class, 'import'])->name('import.doctor.import');
+
+    Route::get('import/pharmacy-store-import', [ImportMedicationStockController::class, 'index'])->name('import.pharmacy_store.index');
+    Route::post('import/pharmacy-store-import', [ImportMedicationStockController::class, 'import'])->name('import.pharmacy_store.import');
+
 
     Route::get('department', [DepartmentController::class, 'index'])->name('department.index');
     Route::patch('department/{id}', [DepartmentController::class, 'update'])->name('department.update');

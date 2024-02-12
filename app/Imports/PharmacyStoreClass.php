@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class PharmacyImportClass implements ToModel, WithHeadingRow
+class PharmacyStoreClass implements ToModel, WithHeadingRow
 {
 
 
@@ -64,6 +64,7 @@ class PharmacyImportClass implements ToModel, WithHeadingRow
 
         return $pharmacy;
     }
+
 
     public function headingRow(): int
     {

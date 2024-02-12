@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('page-title', 'Importar Farmacias')
+@section('page-title', 'Importar Stock')
 
 @section('header-action-button')
     <button class="btn btn-primary btn-icon">
-        <i class="bi bi-plus-circle"></i>Importar Farmacias
+        <i class="bi bi-plus-circle"></i> Importar Stock
     </button>
 @endsection
 
@@ -12,7 +12,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('import.pharmacy.import') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('import.pharmacy_store.import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="file">Choose Excel File</label>

@@ -770,6 +770,20 @@
                     </span>
                     <span>Farmacias </span>
                 </a>
+                <a @if(request()->segment(1) == 'import' && request()->segment(2) == 'doctor-import') class="active"
+                   @endif href="{{ route('import.doctor.index') }}">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-bar-chart"></i>
+                    </span>
+                    <span>Doctores </span>
+                </a>
+                <a @if(request()->segment(1) == 'import' && request()->segment(2) == 'pharmacy-store-import') class="active"
+                   @endif href="{{ route('import.pharmacy_store.index') }}">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-bar-chart"></i>
+                    </span>
+                    <span>Stock </span>
+                </a>
             </li>
 
 
