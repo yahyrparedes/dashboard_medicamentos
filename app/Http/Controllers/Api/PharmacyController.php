@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Medication;
 use App\Utils\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +26,7 @@ class PharmacyController extends Controller
             return response()->json([], 400);
         }
 
-        $medications = $request->medications;
+        $medications = $request->productos;
         $pharmacies = $request->pharmacies;
         $department_id = $request->department_id;
         $province_id = $request->province_id;
@@ -86,6 +87,8 @@ class PharmacyController extends Controller
 //            ->join('departments', 'pharmacies_store.department_id', '=', 'departments.id')
 //            ->join('provinces', 'pharmacies_store.province_id', '=', 'provinces.id')
 //            ->join('districts', 'pharmacies_store.district_id', '=', 'districts.id')
+
+
             ->where('pharmacies_store.is_active', '=', true)
             ->where('pharmacies_store.id', '=',  $id)
             ->first();
@@ -114,11 +117,18 @@ class PharmacyController extends Controller
             $detail->web = '';
         }
 
-
-        $detail->medications = DB::table('medications')
-            ->select('medications.id', 'medications.name')
+        $detail->medications = DB::table('pharmacies_store_stock')
+            ->select('medications.id', 'medications.name', 'pharmacies_store_stock.stock')
+            ->join('medications', 'pharmacies_store_stock.medication_id', '=', 'medications.id')
+            ->where('pharmacies_store_stock.pharmacies_store_id', '=', $id)
+            ->where('pharmacies_store_stock.stock', '>', 0)
             ->where('medications.is_active', '=', true)
             ->get();
+
+//        $detail->medications = DB::table('medications')
+//            ->select('medications.id', 'medications.name')
+//            ->where('medications.is_active', '=', true)
+//            ->get();
 
 
         return response()->json($detail);

@@ -12,7 +12,7 @@ services:
       - db_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: some
-      MYSQL_DATABASE: medicamento
+      # MYSQL_DATABASE: medicamento
       MYSQL_USER: medicamento
       MYSQL_PASSWORD: medicamento
     networks:

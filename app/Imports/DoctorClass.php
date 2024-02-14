@@ -6,6 +6,7 @@ namespace App\Imports;
 use App\Models\Pharmacy;
 use App\Models\PharmacyStore;
 use App\Models\User;
+use App\Utils\Constants;
 use App\Utils\Tools;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -70,8 +71,14 @@ class DoctorClass implements ToModel, WithHeadingRow
         }
 
         // validity name its split by space
-        $name = explode(' ', $row['apellidos_y_nombre']);
-        $name = array_map('trim', $name);
+
+        $_name = $row['apellidos_y_nombre'];
+        $name = explode(' ', $_name);
+
+        foreach ($name as $key => $value) {
+            $name[$key] =json_decode(str_replace( '\u00a0', "", json_encode($value) ));
+        }
+
 
         if (count($name) == 4) {
             $lastName = trim($name[0]) . ' ' . trim($name[1]);
@@ -83,7 +90,6 @@ class DoctorClass implements ToModel, WithHeadingRow
             $firstName = implode(' ', $name);
             $lastName = '';
         }
-
 
         $pharmacy = User::updateOrCreate(
             ['email' => $row['e_mail']],
@@ -101,7 +107,7 @@ class DoctorClass implements ToModel, WithHeadingRow
                 'created_at' => now(),
                 'updated_at' => now(),
                 'ubigeo' => $district->ubigeo ?? null,
-            ]);
+            ])->assignRole(Constants::ROLE_DOCTOR);
 
         return $pharmacy;
     }
