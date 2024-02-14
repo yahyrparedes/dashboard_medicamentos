@@ -7,6 +7,8 @@ use App\Http\Controllers\Web\GenderController;
 use App\Http\Controllers\Web\MedicationController;
 use App\Http\Controllers\Web\MedicationTypeController;
 use App\Http\Controllers\Web\MedicationUnitController;
+use App\Http\Controllers\Web\PharmacyController;
+use App\Http\Controllers\Web\PharmacyStoreController;
 use App\Http\Controllers\Web\Ubigeo\DepartmentController;
 use App\Http\Controllers\Web\Ubigeo\DistrictController;
 use App\Http\Controllers\Web\Ubigeo\ProvinceController;
@@ -33,6 +35,14 @@ Route::get('/dashboard', function () {
 
 
 Route::group(['middleware' => 'auth'], function () {
+
+
+    Route::get('pharmacy', [PharmacyController::class, 'index'])->name('pharmacy.index');
+    Route::patch('pharmacy/{id}', [PharmacyController::class, 'update'])->name('pharmacy.update');
+
+    Route::get('pharmacy-store', [PharmacyStoreController::class, 'index'])->name('pharmacy_store.index');
+    Route::patch('pharmacy-store/{id}', [PharmacyStoreController::class, 'update'])->name('pharmacy_store.update');
+
 
     Route::get('gender', [GenderController::class, 'index'])->name('gender.index');
     Route::patch('gender/{id}', [GenderController::class, 'update'])->name('gender.update');

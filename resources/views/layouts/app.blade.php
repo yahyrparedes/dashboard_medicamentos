@@ -718,6 +718,7 @@
                     </li>
                 </ul>
             </li>
+
             <li>
                 <a @if(request()->segment(1) == 'gender') class="active"
                    @endif href="{{ route('gender.index') }}">
@@ -727,6 +728,22 @@
                     <span>Generos</span>
                 </a>
             </li>
+
+            <li>
+                <a @if(request()->segment(1) == 'pharmacy') class="active"
+                   @endif href="{{ route('pharmacy.index') }}">
+                    <span>Farmacias</span>
+                </a>
+            </li>
+
+            <li>
+                <a @if(request()->segment(1) == 'pharmacy-store') class="active"
+                   @endif href="{{ route('pharmacy_store.index') }}">
+                    <span>Tiendas</span>
+                </a>
+            </li>
+
+
 
             <li class="menu-divider">Medicamentos</li>
             <li>
