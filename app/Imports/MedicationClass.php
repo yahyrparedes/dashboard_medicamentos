@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class MedicationClass implements ToModel, WithHeadingRow
+class MedicationClass implements ToModel /*, WithHeadingRow */
 {
 
 
@@ -16,7 +16,7 @@ class MedicationClass implements ToModel, WithHeadingRow
     {
         set_time_limit(360);
 
-        if ($row['presentacion'] == '' || $row['presentacion'] == '*' || $row['presentacion'] == null) {
+        if ($row[1] == '' || $row[1] == '*' || $row[1] == null) {
             return null;
         }
 
@@ -25,7 +25,7 @@ class MedicationClass implements ToModel, WithHeadingRow
 
         foreach ($medications as $medication) {
 
-            if (str_contains(strtolower($row['presentacion']), strtolower($medication->name))) {
+            if (str_contains(strtolower($row[1]), strtolower($medication->name))) {
                 $medicationId = $medication->id;
                 break;
             }
@@ -35,11 +35,11 @@ class MedicationClass implements ToModel, WithHeadingRow
             return null;
         }
 
-        if ($row['cod_local'] == '' || $row['cod_local'] == '*' || $row['cod_local'] == null) {
+        if ($row[0] == '' || $row[0] == '*' || $row[0] == null) {
             return null;
         }
 
-        $pharmacyStore = PharmacyStore::where('code', $row['cod_local'])->first();
+        $pharmacyStore = PharmacyStore::where('code', $row[0])->first();
 
         if ($pharmacyStore == null) {
             return null;
@@ -50,7 +50,7 @@ class MedicationClass implements ToModel, WithHeadingRow
         print_r($pharmacyStoreId, $medicationId);
         $pharmacy = PharmaciesStoreStocks::updateOrCreate(
             ['pharmacies_store_id' => $pharmacyStoreId, 'medication_id' => $medicationId],
-            [  'stock' => $row['inv_unid'], 'is_active' => true]);
+            [  'stock' => $row[2], 'is_active' => true]);
 
         return $pharmacy;
     }

@@ -729,9 +729,14 @@
                 </a>
             </li>
 
+
+            <li class="menu-divider">Farmacias</li>
             <li>
                 <a @if(request()->segment(1) == 'pharmacy') class="active"
                    @endif href="{{ route('pharmacy.index') }}">
+                     <span class="nav-link-icon">
+                        <i class="bi bi-house-door-fill"></i>
+                    </span>
                     <span>Farmacias</span>
                 </a>
             </li>
@@ -739,11 +744,22 @@
             <li>
                 <a @if(request()->segment(1) == 'pharmacy-store') class="active"
                    @endif href="{{ route('pharmacy_store.index') }}">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-shop"></i>
+                    </span>
                     <span>Tiendas</span>
                 </a>
             </li>
 
-
+            <li>
+                <a @if(request()->segment(1) == 'pharmacy-store-stock') class="active"
+                   @endif href="{{ route('pharmacy_store_stock.index') }}">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-wrench-adjustable"></i>
+                    </span>
+                    <span>Stocks</span>
+                </a>
+            </li>
 
             <li class="menu-divider">Medicamentos</li>
             <li>

@@ -21,7 +21,8 @@ class PharmacyStoreStocksCreateTable extends Migration
             $table->foreignIdFor(PharmacyStore::class, 'pharmacies_store_id')->nullable();
             $table->string('stock');
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

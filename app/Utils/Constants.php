@@ -10,6 +10,7 @@ class Constants
     public const ROUTE_HOME_ADMIN = '/dashboard';
 
     // Role
+    public const ROLE_SUPER_ADMIN = 'SUPER_ADMIN';
     public const ROLE_ADMIN = 'ADMIN';
     public const ROLE_DOCTOR = 'DOCTOR';
     public const ROLE_PATIENT = 'PACIENTE';

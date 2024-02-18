@@ -40,50 +40,32 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('Lima123456'),
             'gender_id' => 2,
-//            'document_type_id' => 2,
-//            'document' => '22222222',
-//            'birthday' => '1950-03-06',
-//            'phone' => '995061504',
             'created_at' => now(),
             'updated_at' => now()
-//        ])->assignRole(Constants::ROLE_ADMIN);
-        ])->assignRole(Constants::ROLE_DOCTOR);
+        ])->assignRole(Constants::ROLE_ADMIN);
 
         User::create([
             'id' => 3,
-            'name' => 'Demo',
-            'last_name' => 'Demo',
-            'email' => 'demo@gmail.com',
+            'name' => 'Hector',
+            'last_name' => 'Sosaya',
+            'email' => 'hsosaya@lansier.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('Lansier2024'),
+            'gender_id' => 2,
+            'created_at' => now(),
+            'updated_at' => now()
+        ])->assignRole(Constants::ROLE_ADMIN);
+
+        User::create([
+            'id' => 4,
+            'name' => 'Allison',
+            'last_name' => 'Sánchez',
+            'email' => 'asanchez@lansier.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('Lansier2024'),
             'gender_id' => 1,
             'created_at' => now(),
             'updated_at' => now()
-//        ])->assignRole(Constants::ROLE_ADMIN);
-        ])->assignRole(Constants::ROLE_DOCTOR);
-//
-//        User::create([
-//            'id' => 4,
-//            'name' => 'Nora',
-//            'last_name' => 'Luna',
-//            'email' => 'nluna@calzadoatlas.pe',
-//            'email_verified_at' => now(),
-//            'password' => Hash::make('Lima123456'),
-//            'gender_id' => 2,
-//            'created_at' => now(),
-//            'updated_at' => now()
-//        ])->assignRole(Constants::ROLE_ADMIN);
-//
-//        User::create([
-//            'id' => 5,
-//            'name' => 'Arnold',
-//            'last_name' => 'Canchanya',
-//            'email' => 'acanchanya@calzadochosica.com',
-//            'email_verified_at' => now(),
-//            'password' => Hash::make('Lima123456'),
-//            'gender_id' => 1,
-//            'created_at' => now(),
-//            'updated_at' => now()
-//        ])->assignRole(Constants::ROLE_ADMIN);
+        ])->assignRole(Constants::ROLE_ADMIN);
     }
 }

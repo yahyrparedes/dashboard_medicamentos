@@ -17,9 +17,10 @@ class MedicationsCreateTable extends Migration
         Schema::create('medications', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignIdFor(MedicationType::class,'medication_type_id')->nullable();
+            $table->foreignIdFor(MedicationType::class, 'medication_type_id')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

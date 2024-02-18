@@ -18,11 +18,15 @@ class PharmaciesSeeder extends Seeder
             'id' => 1,
             'name' => 'Inkafarma',
             'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         DB::table('pharmacies')->insert([
             'id' => 2,
             'name' => 'Mifarma',
             'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

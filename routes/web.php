@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\MedicationTypeController;
 use App\Http\Controllers\Web\MedicationUnitController;
 use App\Http\Controllers\Web\PharmacyController;
 use App\Http\Controllers\Web\PharmacyStoreController;
+use App\Http\Controllers\Web\PharmacyStoreStockController;
 use App\Http\Controllers\Web\Ubigeo\DepartmentController;
 use App\Http\Controllers\Web\Ubigeo\DistrictController;
 use App\Http\Controllers\Web\Ubigeo\ProvinceController;
@@ -36,13 +37,15 @@ Route::get('/dashboard', function () {
 
 Route::group(['middleware' => 'auth'], function () {
 
-
     Route::get('pharmacy', [PharmacyController::class, 'index'])->name('pharmacy.index');
     Route::patch('pharmacy/{id}', [PharmacyController::class, 'update'])->name('pharmacy.update');
 
     Route::get('pharmacy-store', [PharmacyStoreController::class, 'index'])->name('pharmacy_store.index');
     Route::patch('pharmacy-store/{id}', [PharmacyStoreController::class, 'update'])->name('pharmacy_store.update');
 
+    Route::get('pharmacy-store-stock', [PharmacyStoreStockController::class, 'index'])->name('pharmacy_store_stock.index');
+    Route::get('pharmacy-store-stock/{id}', [PharmacyStoreStockController::class, 'show'])->name('pharmacy_store_stock.show');
+    Route::patch('pharmacy-store-stock/{id}', [PharmacyStoreStockController::class, 'update'])->name('pharmacy_store_stock.update');
 
     Route::get('gender', [GenderController::class, 'index'])->name('gender.index');
     Route::patch('gender/{id}', [GenderController::class, 'update'])->name('gender.update');
@@ -55,7 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('medication-unit', [MedicationUnitController::class, 'index'])->name('medication_unit.index');
     Route::patch('medication-unit/{id}', [MedicationUnitController::class, 'update'])->name('medication_unit.update');
-
 
     Route::get('import/pharmacy-import', [ImportPharmacyStoreController::class, 'index'])->name('import.pharmacy.index');
     Route::post('import/pharmacy-import', [ImportPharmacyStoreController::class, 'import'])->name('import.pharmacy.import');

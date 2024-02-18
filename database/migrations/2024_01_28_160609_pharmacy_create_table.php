@@ -15,7 +15,8 @@ class PharmacyCreateTable extends Migration
             $table->id()->autoIncrement();
             $table->string('name')->unique();
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

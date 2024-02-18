@@ -2,6 +2,7 @@
 
 use App\Models\Department;
 use App\Models\District;
+use App\Models\Pharmacy;
 use App\Models\Province;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,6 +22,7 @@ class PharmacyStoreTable extends Migration
             $table->string('code')->unique();
             $table->string('description');
             $table->string('format');
+            $table->foreignIdFor(Pharmacy::class, 'pharmacy_id')->nullable();
             $table->string('type');
             $table->string('address');
             $table->boolean('is_active')->default(true);
@@ -28,7 +30,8 @@ class PharmacyStoreTable extends Migration
             $table->foreignIdFor(Province::class, 'province_id')->nullable();
             $table->foreignIdFor(District::class, 'district_id')->nullable();
             $table->string('opening_date')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

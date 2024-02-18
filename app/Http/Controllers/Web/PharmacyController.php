@@ -19,7 +19,7 @@ class PharmacyController extends Controller
         $department = DB::table('pharmacies')
             ->select('id', 'name',  'is_active')
             ->paginate(50);
-        return view('commons.gender', compact('department'));
+        return view('pharmacy.pharmacy', compact('department'));
 
     }
 

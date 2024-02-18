@@ -20,7 +20,8 @@ class CreateDistrictsTable extends Migration
             $table->string('name');
             $table->string('ubigeo')->unique();
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
         });
     }

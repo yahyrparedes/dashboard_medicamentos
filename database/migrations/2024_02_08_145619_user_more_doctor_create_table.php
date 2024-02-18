@@ -19,7 +19,8 @@ class UserMoreDoctorCreateTable extends Migration
             $table->foreignIdFor(User::class, 'user_id')->nullable();
             $table->foreignIdFor(User::class, 'doctor_id')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

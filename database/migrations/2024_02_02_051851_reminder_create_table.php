@@ -26,9 +26,11 @@ class ReminderCreateTable extends Migration
             $table->integer('count');
             $table->string('frequency_daily');
             $table->boolean('is_active')->default(true);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
+
     /**
      * Reverse the migrations.
      *

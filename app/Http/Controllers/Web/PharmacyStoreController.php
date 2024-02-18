@@ -17,9 +17,16 @@ class PharmacyStoreController extends Controller
     public function index()
     {
         $department = DB::table('pharmacies_store')
-            ->select('id', 'name',  'is_active')
+            ->join('pharmacies', 'pharmacies_store.pharmacy_id', '=', 'pharmacies.id')
+            ->join('departments', 'pharmacies_store.department_id', '=', 'departments.id')
+            ->join('provinces', 'pharmacies_store.province_id', '=', 'provinces.id')
+            ->join('districts', 'pharmacies_store.district_id', '=', 'districts.id')
+            ->select('pharmacies_store.*', 'pharmacies.name as pharmacy_name', 'departments.name as department_name', 'provinces.name as province_name', 'districts.name as district_name')
+            ->orderBy('department_id')
+            ->orderBy('province_id')
+            ->orderBy('district_id')
             ->paginate(50);
-        return view('commons.gender', compact('department'));
+        return view('pharmacy.pharmacy-store', compact('department'));
 
     }
 

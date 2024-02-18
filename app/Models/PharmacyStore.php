@@ -12,8 +12,8 @@ class PharmacyStore extends Model
     protected $table = 'pharmacies_store';
 
     protected $fillable = [
-        'id', 'code', 'description',
-        'format', 'type', 'address',
+        'id', 'code', 'description', 'pharmacy_id',
+        'format',  'type', 'address',
         'department_id', 'province_id', 'district_id', 'opening_date'
     ];
 

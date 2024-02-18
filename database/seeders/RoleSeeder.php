@@ -15,6 +15,7 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
+        Role::create(['name' => Constants::ROLE_SUPER_ADMIN]);
         Role::create(['name' => Constants::ROLE_ADMIN]);
         Role::create(['name' => Constants::ROLE_DOCTOR]);
         Role::create(['name' => Constants::ROLE_PATIENT]);
