@@ -17,6 +17,7 @@ class PharmacyStoreClass implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         set_time_limit(360);
+        ini_set('memory_limit', '1024M');
 
 
         if ($row['departamento'] == '' || $row['departamento'] == '*' || $row['departamento'] == null) {
