@@ -13,6 +13,7 @@ use App\Http\Controllers\Web\PharmacyStoreStockController;
 use App\Http\Controllers\Web\Ubigeo\DepartmentController;
 use App\Http\Controllers\Web\Ubigeo\DistrictController;
 use App\Http\Controllers\Web\Ubigeo\ProvinceController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/artisan', function () {
+    Artisan::queue('db:wipe');
+    Artisan::queue('migrate');
+    Artisan::queue('db:seed');
+});
 
 Route::get('/', function () {
     return redirect('login');
