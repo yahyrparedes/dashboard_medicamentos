@@ -67,5 +67,17 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ])->assignRole(Constants::ROLE_ADMIN);
+
+        User::create([
+            'id' => 5,
+            'name' => 'Doctor',
+            'last_name' => 'Lansier',
+            'email' => 'doctor@lansier.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('Lansier2024'),
+            'gender_id' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ])->assignRole(Constants::ROLE_DOCTOR);
     }
 }

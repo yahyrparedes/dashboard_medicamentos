@@ -54,7 +54,8 @@ class ReminderController extends Controller
 
         if (strlen($data['medication_id']) > 1) {
             $medicationId = DB::table('medication_types')
-                 ->where('name', 'like', '%'.$data['medication_id'].'%')->first();
+//                 ->where('name', 'like', '%'.$data['medication_id'].'%')->first();
+                 ->where('id', '=', $data['medication_id'])->first();
             $data['medication_id'] = $medicationId->id;
         }
 
@@ -182,5 +183,28 @@ class ReminderController extends Controller
 
         return response()->json(['remainder' => $remainder, 'remainder-detail' => $remainderDetail, 'message' => 'Record deleted successfully']);
     }
+
+//
+    public function ignore(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+
+        $remainder = DB::table('reminders')
+            ->where('id', $id)
+            ->update([
+                'is_active' => false,
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+        $remainderDetail = DB::table('reminder_details')
+            ->where('reminder_id', $id)
+            ->update([
+                'is_active' => false,
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+
+        return response()->json(['remainder' => $remainder, 'remainder-detail' => $remainderDetail, 'message' => 'Record deleted successfully']);
+    }
+
+
 
 }
