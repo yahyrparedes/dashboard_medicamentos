@@ -19,10 +19,9 @@ class PharmacyStoreStockController extends Controller
         $department = DB::table('pharmacies_store_stock')
             ->join('medications', 'pharmacies_store_stock.medication_id', '=', 'medications.id')
             ->join('pharmacies_store', 'pharmacies_store_stock.pharmacies_store_id', '=', 'pharmacies_store.id')
-            ->select('pharmacies_store_stock.id', 'pharmacies_store.description', 'medications.name', 'pharmacies_store_stock.stock', 'pharmacies_store_stock.is_active')
+            ->select('pharmacies_store_stock.id','pharmacies_store.code', 'pharmacies_store.description', 'medications.name', 'pharmacies_store_stock.stock', 'pharmacies_store_stock.is_active')
             ->paginate(50);
         return view('pharmacy.pharmacy-store-stock', compact('department'));
-
     }
 
     /**
@@ -59,8 +58,7 @@ class PharmacyStoreStockController extends Controller
             ->join('medications', 'pharmacies_store_stock.medication_id', '=', 'medications.id')
             ->join('pharmacies_store', 'pharmacies_store_stock.pharmacies_store_id', '=', 'pharmacies_store.id')
             ->where('pharmacies_store_id', '=', DB::raw($id))
-            ->simplePaginate(50)
-;
+            ->simplePaginate(50);
 
         return view('pharmacy.pharmacy-store-stock', compact('department'));
     }
