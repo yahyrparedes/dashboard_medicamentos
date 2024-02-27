@@ -73,6 +73,7 @@ class UserSeeder extends Seeder
             'name' => 'Doctor',
             'last_name' => 'Lansier',
             'email' => 'doctor@lansier.com',
+            'cmp' => 111122223333,
             'email_verified_at' => now(),
             'password' => Hash::make('Lansier2024'),
             'gender_id' => 1,

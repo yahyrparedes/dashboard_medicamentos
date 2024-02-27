@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('page-title', 'Farmacias')
+@section('page-title', 'Pacientes')
 
 @section('header-action-button')
     <button class="btn btn-primary btn-icon">
-        <i class="bi bi-plus-circle"></i> Farmacias
+        <i class="bi bi-plus-circle"></i> Pacientes
     </button>
 @endsection
 
@@ -43,69 +43,72 @@
                         </div>
                     </form>
                 </div>
-                {{--                <div class="dropdown ms-auto">--}}
-                {{--                    <a href="#" data-bs-toggle="dropdown"--}}
-                {{--                       class="btn btn-primary dropdown-toggle"--}}
-                {{--                       aria-haspopup="true" aria-expanded="false">Actions</a>--}}
-                {{--                    <div class="dropdown-menu dropdown-menu-end">--}}
-                {{--                        <a href="#" class="dropdown-item">Action</a>--}}
-                {{--                        <a href="#" class="dropdown-item">Another action</a>--}}
-                {{--                        <a href="#" class="dropdown-item">Something else here</a>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
+{{--                <div class="dropdown ms-auto">--}}
+{{--                    <a href="#" data-bs-toggle="dropdown"--}}
+{{--                       class="btn btn-primary dropdown-toggle"--}}
+{{--                       aria-haspopup="true" aria-expanded="false">Actions</a>--}}
+{{--                    <div class="dropdown-menu dropdown-menu-end">--}}
+{{--                        <a href="#" class="dropdown-item">Action</a>--}}
+{{--                        <a href="#" class="dropdown-item">Another action</a>--}}
+{{--                        <a href="#" class="dropdown-item">Something else here</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
         </div>
     </div>
-    <div class="table-responsive" style="overflow: hidden; outline: none;">
-        <table class="table table-custom table-lg" id="orders">
+    <div class="table-responsive">
+        <table id="invoices" class="table table-custom table-lg">
             <thead>
             <tr>
                 <th>
-                    <input class="form-check-input select-all" type="checkbox" data-select-all-target="#orders"
+                    <input class="form-check-input select-all" type="checkbox" data-select-all-target="#invoices"
                            id="defaultCheck1">
                 </th>
                 <th>#</th>
-                <th>Tienda</th>
-                <th>Medicamento</th>
-                <th>Stock</th>
-                <th>Status</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>CMP</th>
+                <th>Estado</th>
+
             </tr>
             </thead>
             <tbody>
-            @foreach($department as $data)
+            @foreach($patients as $data)
                 <tr>
                     <td>
                         <input class="form-check-input" type="checkbox">
                     </td>
                     <td>
-                        <a href="#">
-                            {{ $data->code }}
-                        </a>
+                        {{ $data->id }}
                     </td>
                     <td>
-                        {{ $data->description }}
+                         {{ $data->name }}
                     </td>
                     <td>
-                        {{ $data->name }}
+                        {{ $data->last_name }}
                     </td>
                     <td>
-                        {{ $data->stock }}
+                        {{ $data->email }}
+                    </td>
+                    <td>
+                        {{ $data->cmp }}
                     </td>
                     <td>
                         @if($data->is_active)
-                            <form method="post" action="{{ route('pharmacy_store_stock.update', $data->id) }}">
+                            <form method="post" action="{{ route('patients.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
-                                <input type="text" class="form-control" name="is_active" value="0" hidden/>
+                                <input type="text" class="form-control" name="active" value="0" hidden/>
                                 <button type="submit" rel="tooltip" class="btn btn-danger">
                                     DESACTIVAR
                                 </button>
                             </form>
                         @else
-                            <form method="post" action="{{ route('pharmacy_store_stock.update', $data->id) }}">
+                            <form method="post" action="{{ route('gender.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
-                                <input type="text" class="form-control" name="is_active" value="1" hidden/>
+                                <input type="text" class="form-control" name="active" value="1" hidden/>
                                 <button type="submit" rel="tooltip" class="btn btn-success">
                                     ACTIVAR
                                 </button>
@@ -120,7 +123,7 @@
     </div>
 
 
-    {{ $department->links('vendor.pagination.custom') }}
+    {{ $patients->links('vendor.pagination.custom') }}
 
 @endsection
 

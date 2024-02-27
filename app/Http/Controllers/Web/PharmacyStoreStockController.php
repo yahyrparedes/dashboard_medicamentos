@@ -55,7 +55,7 @@ class PharmacyStoreStockController extends Controller
     public function show($id)
     {
         $department = DB::table('pharmacies_store_stock')
-            ->select('pharmacies_store_stock.id', 'pharmacies_store.description', 'medications.name', 'pharmacies_store_stock.stock', 'pharmacies_store_stock.is_active')
+            ->select('pharmacies_store_stock.id', 'pharmacies_store.description', 'medications.name',  'pharmacies_store.code', 'pharmacies_store_stock.stock', 'pharmacies_store_stock.is_active')
             ->join('medications', 'pharmacies_store_stock.medication_id', '=', 'medications.id')
             ->join('pharmacies_store', 'pharmacies_store_stock.pharmacies_store_id', '=', 'pharmacies_store.id')
             ->where('pharmacies_store_id', '=', DB::raw($id))

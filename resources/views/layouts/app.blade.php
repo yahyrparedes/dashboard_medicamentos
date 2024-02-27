@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-{{--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">--}}
+    {{--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">--}}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>
@@ -551,8 +551,8 @@
                          class="rounded-circle" alt="image">
                 </div>
                 <div>
-                                        <div class="fw-bold">{{ Auth::user()->name }}</div>
-                                        <small class="text-muted">{{ Auth::user()->email }}</small>
+                    <div class="fw-bold">{{ Auth::user()->name }}</div>
+                    <small class="text-muted">{{ Auth::user()->email }}</small>
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end">
@@ -572,7 +572,7 @@
             </div>
         </div>
         <ul>
-{{--            <li class="menu-divider">E-Commerce</li>--}}
+            {{--            <li class="menu-divider">E-Commerce</li>--}}
             <li>
                 <a @if(!request()->segment(1) || request()->is('dashboard')) class="active"
                    @endif href="{{ route('dashboard') }}">
@@ -729,6 +729,26 @@
                 </a>
             </li>
 
+            <li class="menu-divider">Usuarios</li>
+            <li>
+                <a @if(request()->segment(1) == 'patients') class="active"
+                   @endif href="{{ route('patients.index') }}">
+                     <span class="nav-link-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </span>
+                    <span>Pacientes</span>
+                </a>
+            </li>
+            <li>
+                <a @if(request()->segment(1) == 'doctors') class="active"
+                   @endif href="{{ route('doctors.index') }}">
+                     <span class="nav-link-icon">
+                       <i class="bi bi-person-square"></i>
+                    </span>
+                    <span>Doctores</span>
+                </a>
+            </li>
+
 
             <li class="menu-divider">Farmacias</li>
             <li>
@@ -755,7 +775,11 @@
                 <a @if(request()->segment(1) == 'pharmacy-store-stock') class="active"
                    @endif href="{{ route('pharmacy_store_stock.index') }}">
                     <span class="nav-link-icon">
-                        <i class="bi bi-wrench-adjustable"></i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-capsule" viewBox="0 0 16 16">
+                          <path
+                              d="M1.828 8.9 8.9 1.827a4 4 0 1 1 5.657 5.657l-7.07 7.071A4 4 0 1 1 1.827 8.9Zm9.128.771 2.893-2.893a3 3 0 1 0-4.243-4.242L6.713 5.429z"/>
+                        </svg>
                     </span>
                     <span>Stocks</span>
                 </a>
@@ -791,9 +815,6 @@
             </li>
 
 
-
-
-
             <li class="menu-divider">Importar</li>
             <li>
                 <a @if(request()->segment(1) == 'import' && request()->segment(2) == 'pharmacy-import') class="active"
@@ -820,65 +841,65 @@
             </li>
 
 
-{{--            <li class="menu-divider">Otros</li>--}}
-{{--            <li>--}}
-{{--                <a @if(request()->segment(1) == 'chats') class="active" @endif href="{{ route('chats') }}">--}}
-{{--                        <span class="nav-link-icon">--}}
-{{--                            <i class="bi bi-chat-square"></i>--}}
-{{--                        </span>--}}
-{{--                    <span>Chats</span>--}}
-{{--                    <span class="badge bg-success rounded-circle ms-auto">2</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-{{--            <li>--}}
-{{--                <a href="{{ route('email') }}">--}}
-{{--                                <span class="nav-link-icon">--}}
-{{--                                    <i class="bi bi-envelope"></i>--}}
-{{--                                </span>--}}
-{{--                    <span>Email</span>--}}
-{{--                </a>--}}
-{{--                <ul>--}}
-{{--                    <li>--}}
-{{--                        <a @if(request()->segment(1) == 'email') class="active" @endif href="{{ route('email') }}">--}}
-{{--                            <span>Inbox</span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a @if(request()->segment(1) == 'email-detail') class="active"--}}
-{{--                           @endif href="{{ route('email-detail') }}">--}}
-{{--                            <span>Detail</span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a target="_blank" href="{{ route('email-template') }}">--}}
-{{--                            <span>Email Template</span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </li>--}}
-{{--            <li>--}}
-{{--                <a href="{{ route('todo-list') }}">--}}
-{{--                                <span class="nav-link-icon">--}}
-{{--                                    <i class="bi bi-check-circle"></i>--}}
-{{--                                </span>--}}
-{{--                    <span>Todo App</span>--}}
-{{--                </a>--}}
-{{--                <ul>--}}
-{{--                    <li>--}}
-{{--                        <a @if(request()->segment(1) == 'todo-list') class="active"--}}
-{{--                           @endif href="{{ route('todo-list') }}">--}}
-{{--                            <span>List</span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a @if(request()->segment(1) == 'todo-detail') class="active"--}}
-{{--                           @endif href="{{ route('todo-detail') }}">--}}
-{{--                            <span>Details</span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </li>--}}
-{{--        </ul>--}}
+        {{--            <li class="menu-divider">Otros</li>--}}
+        {{--            <li>--}}
+        {{--                <a @if(request()->segment(1) == 'chats') class="active" @endif href="{{ route('chats') }}">--}}
+        {{--                        <span class="nav-link-icon">--}}
+        {{--                            <i class="bi bi-chat-square"></i>--}}
+        {{--                        </span>--}}
+        {{--                    <span>Chats</span>--}}
+        {{--                    <span class="badge bg-success rounded-circle ms-auto">2</span>--}}
+        {{--                </a>--}}
+        {{--            </li>--}}
+        {{--            <li>--}}
+        {{--                <a href="{{ route('email') }}">--}}
+        {{--                                <span class="nav-link-icon">--}}
+        {{--                                    <i class="bi bi-envelope"></i>--}}
+        {{--                                </span>--}}
+        {{--                    <span>Email</span>--}}
+        {{--                </a>--}}
+        {{--                <ul>--}}
+        {{--                    <li>--}}
+        {{--                        <a @if(request()->segment(1) == 'email') class="active" @endif href="{{ route('email') }}">--}}
+        {{--                            <span>Inbox</span>--}}
+        {{--                        </a>--}}
+        {{--                    </li>--}}
+        {{--                    <li>--}}
+        {{--                        <a @if(request()->segment(1) == 'email-detail') class="active"--}}
+        {{--                           @endif href="{{ route('email-detail') }}">--}}
+        {{--                            <span>Detail</span>--}}
+        {{--                        </a>--}}
+        {{--                    </li>--}}
+        {{--                    <li>--}}
+        {{--                        <a target="_blank" href="{{ route('email-template') }}">--}}
+        {{--                            <span>Email Template</span>--}}
+        {{--                        </a>--}}
+        {{--                    </li>--}}
+        {{--                </ul>--}}
+        {{--            </li>--}}
+        {{--            <li>--}}
+        {{--                <a href="{{ route('todo-list') }}">--}}
+        {{--                                <span class="nav-link-icon">--}}
+        {{--                                    <i class="bi bi-check-circle"></i>--}}
+        {{--                                </span>--}}
+        {{--                    <span>Todo App</span>--}}
+        {{--                </a>--}}
+        {{--                <ul>--}}
+        {{--                    <li>--}}
+        {{--                        <a @if(request()->segment(1) == 'todo-list') class="active"--}}
+        {{--                           @endif href="{{ route('todo-list') }}">--}}
+        {{--                            <span>List</span>--}}
+        {{--                        </a>--}}
+        {{--                    </li>--}}
+        {{--                    <li>--}}
+        {{--                        <a @if(request()->segment(1) == 'todo-detail') class="active"--}}
+        {{--                           @endif href="{{ route('todo-detail') }}">--}}
+        {{--                            <span>Details</span>--}}
+        {{--                        </a>--}}
+        {{--                    </li>--}}
+        {{--                </ul>--}}
+        {{--            </li>--}}
+        {{--        </ul>--}}
         {{--        <ul>--}}
         {{--            <li class="menu-divider">E-Commerce</li>--}}
         {{--            <li>--}}
@@ -1623,13 +1644,13 @@
     <!-- content-footer -->
     <footer class="content-footer">
         <div>© {{ date('Y') }} GupoSBN - <a href="https://www.lansier.com" target="_blank">Lansier Web</a></div>
-{{--        <div>--}}
-{{--            <nav class="nav gap-4">--}}
-{{--                <a href="https://reclamos.zapatillastigre.com/" class="nav-link">Libro de reclamaciones</a>--}}
-{{--                <a href="https://calzadoatlas.pe/" class="nav-link">Calzado Atlas</a>--}}
-{{--                --}}{{--                <a href="#" class="nav-link">Get Help</a>--}}
-{{--            </nav>--}}
-{{--        </div>--}}
+        {{--        <div>--}}
+        {{--            <nav class="nav gap-4">--}}
+        {{--                <a href="https://reclamos.zapatillastigre.com/" class="nav-link">Libro de reclamaciones</a>--}}
+        {{--                <a href="https://calzadoatlas.pe/" class="nav-link">Calzado Atlas</a>--}}
+        {{--                --}}{{--                <a href="#" class="nav-link">Get Help</a>--}}
+        {{--            </nav>--}}
+        {{--        </div>--}}
     </footer>
     <!-- ./ content-footer -->
 

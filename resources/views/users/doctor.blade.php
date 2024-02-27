@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('page-title', 'Farmacias')
+@section('page-title', 'Doctores')
 
 @section('header-action-button')
     <button class="btn btn-primary btn-icon">
-        <i class="bi bi-plus-circle"></i> Farmacias
+        <i class="bi bi-plus-circle"></i> Doctores
     </button>
 @endsection
 
@@ -56,56 +56,63 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive" style="overflow: hidden; outline: none;">
-        <table class="table table-custom table-lg" id="orders">
+    <div class="table-responsive">
+        <table id="invoices" class="table table-custom table-lg">
             <thead>
             <tr>
                 <th>
-                    <input class="form-check-input select-all" type="checkbox" data-select-all-target="#orders"
+                    <input class="form-check-input select-all" type="checkbox" data-select-all-target="#invoices"
                            id="defaultCheck1">
                 </th>
                 <th>#</th>
-                <th>Tienda</th>
-                <th>Medicamento</th>
-                <th>Stock</th>
-                <th>Status</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>CMP</th>
+                <th>Importado</th>
+                <th>Estado</th>
+
             </tr>
             </thead>
             <tbody>
-            @foreach($department as $data)
+            @foreach($doctors as $data)
                 <tr>
                     <td>
                         <input class="form-check-input" type="checkbox">
                     </td>
                     <td>
-                        <a href="#">
-                            {{ $data->code }}
-                        </a>
-                    </td>
-                    <td>
-                        {{ $data->description }}
+                        {{ $data->id }}
                     </td>
                     <td>
                         {{ $data->name }}
                     </td>
                     <td>
-                        {{ $data->stock }}
+                        {{ $data->last_name }}
+                    </td>
+                    <td>
+                        {{ $data->email }}
+                    </td>
+                    <td>
+                        {{ $data->cmp }}
+                    </td>
+                    <td>
+                        {{ $data->is_imported ?  'No' :'Si'}}
                     </td>
                     <td>
                         @if($data->is_active)
-                            <form method="post" action="{{ route('pharmacy_store_stock.update', $data->id) }}">
+                            <form method="post" action="{{ route('patients.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
-                                <input type="text" class="form-control" name="is_active" value="0" hidden/>
+                                <input type="text" class="form-control" name="active" value="0" hidden/>
                                 <button type="submit" rel="tooltip" class="btn btn-danger">
                                     DESACTIVAR
                                 </button>
                             </form>
                         @else
-                            <form method="post" action="{{ route('pharmacy_store_stock.update', $data->id) }}">
+                            <form method="post" action="{{ route('gender.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
-                                <input type="text" class="form-control" name="is_active" value="1" hidden/>
+                                <input type="text" class="form-control" name="active" value="1" hidden/>
                                 <button type="submit" rel="tooltip" class="btn btn-success">
                                     ACTIVAR
                                 </button>
@@ -120,7 +127,7 @@
     </div>
 
 
-    {{ $department->links('vendor.pagination.custom') }}
+    {{ $doctors->links('vendor.pagination.custom') }}
 
 @endsection
 

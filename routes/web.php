@@ -3,6 +3,7 @@
 use App\Http\Controllers\Import\ImportDoctorController;
 use App\Http\Controllers\Import\ImportMedicationStockController;
 use App\Http\Controllers\Import\ImportPharmacyStoreController;
+use App\Http\Controllers\Web\DoctorController;
 use App\Http\Controllers\Web\GenderController;
 use App\Http\Controllers\Web\MedicationController;
 use App\Http\Controllers\Web\MedicationTypeController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Web\PharmacyStoreStockController;
 use App\Http\Controllers\Web\Ubigeo\DepartmentController;
 use App\Http\Controllers\Web\Ubigeo\DistrictController;
 use App\Http\Controllers\Web\Ubigeo\ProvinceController;
+use App\Http\Controllers\Web\PatientController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('pharmacy', [PharmacyController::class, 'index'])->name('pharmacy.index');
     Route::patch('pharmacy/{id}', [PharmacyController::class, 'update'])->name('pharmacy.update');
+
+    Route::get('patients', [PatientController::class, 'index'])->name('patients.index');
+    Route::patch('patients/{id}', [PatientController::class, 'update'])->name('patients.update');
+
+    Route::get('doctors', [DoctorController::class, 'index'])->name('doctors.index');
+    Route::patch('doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');
 
     Route::get('pharmacy-store', [PharmacyStoreController::class, 'index'])->name('pharmacy_store.index');
     Route::patch('pharmacy-store/{id}', [PharmacyStoreController::class, 'update'])->name('pharmacy_store.update');

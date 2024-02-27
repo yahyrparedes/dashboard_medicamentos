@@ -82,11 +82,11 @@
                     </td>
                     <td>
                         <a href="{{ route('pharmacy_store_stock.show', $data->id) }}">
-                            {{ $data->id }}
+                            {{ $data->code }}
                         </a>
                     </td>
                     <td colspan="2">
-                       <a href="#">{{ $data->description }} </a><br/>
+                       <a href="{{ route('pharmacy_store_stock.show', $data->id) }}">{{ $data->description }} </a><br/>
                       <p style="font-size: 12px; white-space:pre-wrap; word-wrap:break-word">{{ $data->address}} </p>
                     </td>
                     <td>

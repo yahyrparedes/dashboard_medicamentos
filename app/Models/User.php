@@ -27,7 +27,9 @@ class User extends Authenticatable
         'document_type_id',
         'document',
         'birthday',
-        'phone'
+        'phone',
+        'cmp',
+        'ubigeo',
     ];
 
     /**
@@ -36,6 +38,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'is_imported',
         'password',
         'remember_token',
         'email_verified_at',
