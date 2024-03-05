@@ -30,6 +30,8 @@ class User extends Authenticatable
         'phone',
         'cmp',
         'ubigeo',
+        'is_imported',
+        'is_active',
     ];
 
     /**
@@ -38,7 +40,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'is_imported',
         'password',
         'remember_token',
         'email_verified_at',

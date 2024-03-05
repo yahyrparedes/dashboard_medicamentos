@@ -83,7 +83,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('import/pharmacy-store-import', [ImportMedicationStockController::class, 'index'])->name('import.pharmacy_store.index');
     Route::post('import/pharmacy-store-import', [ImportMedicationStockController::class, 'import'])->name('import.pharmacy_store.import');
 
-
     Route::get('department', [DepartmentController::class, 'index'])->name('department.index');
     Route::patch('department/{id}', [DepartmentController::class, 'update'])->name('department.update');
 

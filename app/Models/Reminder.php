@@ -16,6 +16,7 @@ class Reminder extends Model
         'end_date',
         'duration',
         'frequency',
+        'horario',
         'count',
         'frequency_daily',
         'is_active'

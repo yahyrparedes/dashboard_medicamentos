@@ -1,12 +1,12 @@
 <?php
 
 use App\Models\Reminder;
-use App\Models\User;
+use App\Models\ReminderDetail;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ReminderDetailCreateTable extends Migration
+class ReminderStatusCreateTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,13 +15,16 @@ class ReminderDetailCreateTable extends Migration
      */
     public function up()
     {
-        Schema::create('reminder_details', function (Blueprint $table) {
+        Schema::create('reminder_status', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id')->nullable();
             $table->foreignIdFor(Reminder::class, 'reminder_id')->nullable();
+            $table->foreignIdFor(ReminderDetail::class, 'reminder_detail_id')->nullable();
             $table->integer('position');
-            $table->string('horario');
-            $table->string('dosis');
+            $table->timestamp('date');
+            $table->enum('type', ['apply', 'ignore']);
+            $table->string('description', 255)->nullable()->default(null);
+            $table->string('frequency', 25)->nullable()->default(null);
+            $table->string('schedule')->nullable()->default(null);
             $table->boolean('is_active')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
@@ -35,6 +38,6 @@ class ReminderDetailCreateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reminder_details');
+        Schema::dropIfExists('reminder_status');
     }
 }

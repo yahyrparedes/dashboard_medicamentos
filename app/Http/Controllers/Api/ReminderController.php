@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ReminderController extends Controller
 {
@@ -55,7 +56,7 @@ class ReminderController extends Controller
         if (strlen($data['medication_id']) > 1) {
             $medicationId = DB::table('medication_types')
 //                 ->where('name', 'like', '%'.$data['medication_id'].'%')->first();
-                 ->where('id', '=', $data['medication_id'])->first();
+                ->where('id', '=', $data['medication_id'])->first();
             $data['medication_id'] = $medicationId->id;
         }
 
@@ -93,8 +94,7 @@ class ReminderController extends Controller
     public function filter(Request $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->all();
-        $weekMap = [ 0 => 'D',1 => 'L',2 => 'M',3 => 'X',4 => 'J',5 => 'V',6 => 'S',];
-
+        $weekMap = [0 => 'D', 1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', 6 => 'S',];
         $dayOfTheWeek = Carbon::parse($data['date'])->dayOfWeek;
         $weekday = $weekMap[$dayOfTheWeek];
 
@@ -117,7 +117,7 @@ class ReminderController extends Controller
                 'reminders.frequency_daily')
             ->join('reminders', function ($join) use ($data, $weekday) {
                 $join->on('reminder_details.reminder_id', '=', 'reminders.id')
-                    ->where('reminders.frequency' ,  'like' , '%' . $weekday . '%')
+                    ->where('reminders.frequency', 'like', '%' . $weekday . '%')
                     ->whereRaw('? between `reminders`.`start_date` and `reminders`.`end_date`', $data['date'])
                     ->where('reminders.user_id', '=', $data['user_id'])
                     ->where('reminders.is_active', '=', true);
@@ -128,7 +128,19 @@ class ReminderController extends Controller
 //            ->orderBy('reminder_details.position')
             ->get();
 
-        return response()->json($remainder );
+
+        foreach ($remainder as $key => $value) {
+            $remainder[$key]->status = DB::table('reminder_status')
+                ->select('type')
+                ->where('reminder_id', '=', $value->reminder_id)
+                ->where('reminder_detail_id', '=', $value->id)
+                ->where('position', '=', $remainder[$key]->position)
+                ->where('schedule', '=', $remainder[$key]->horario)
+                ->whereDate('date', '=', $data['date'])
+                ->first()->type ?? 'pending';
+        }
+
+        return response()->json($remainder);
     }
 
     public function update(Request $request, $id): \Illuminate\Http\JsonResponse
@@ -184,27 +196,51 @@ class ReminderController extends Controller
         return response()->json(['remainder' => $remainder, 'remainder-detail' => $remainderDetail, 'message' => 'Record deleted successfully']);
     }
 
-//
-    public function ignore(Request $request, $id): \Illuminate\Http\JsonResponse
+    public function status(Request $request): \Illuminate\Http\JsonResponse
     {
 
-        $remainder = DB::table('reminders')
-            ->where('id', $id)
-            ->update([
-                'is_active' => false,
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
 
-        $remainderDetail = DB::table('reminder_details')
-            ->where('reminder_id', $id)
-            ->update([
-                'is_active' => false,
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
+        $validatedData = Validator::make($request->all(), [
+            'id' => ['required', 'integer'],
+            'detail_id' => ['required', 'integer'],
+            'type' => ['required', 'string', 'max:255'],
+            'description' => ['string', 'max:255'],
+            'date' => ['required'],
+        ]);
 
-        return response()->json(['remainder' => $remainder, 'remainder-detail' => $remainderDetail, 'message' => 'Record deleted successfully']);
+        $weekMap = [0 => 'D', 1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', 6 => 'S',];
+        $dayOfTheWeek = Carbon::parse($request->date)->dayOfWeek;
+        $weekday = $weekMap[$dayOfTheWeek];
+
+        if ($validatedData->fails()) {
+            return response()->json($validatedData->errors(), 400);
+        }
+
+        $remainderDetail = DB::table('reminder_details')->where('id', $request->detail_id)->first();
+
+        $data = [
+            'reminder_id' => $request->id,
+            'reminder_detail_id' => $request->detail_id,
+            'type' => $request->type,
+            'date' => $request->date,
+            'position' => $remainderDetail->position,
+            'is_active' => true,
+            'schedule' => $remainderDetail->horario,
+            'frequency' => $weekday,
+            'created_at' => now(),
+        ];
+
+        if ($request->description) {
+            $data['description'] = $request->description;
+        }
+
+        $reminderStatus = DB::table('reminder_status')->insert($data);
+
+        return response()->json(
+            ['reminder_status' => $reminderStatus,
+                'status' => $request->type,
+                'message' => 'Record deleted successfully']);
     }
-
 
 
 }

@@ -63,6 +63,7 @@ class AuthenticationController extends Controller
             'phone' => $request->phone,
             'ubigeo' => $request->ubigeo,
             'is_active' => true,
+            'is_imported' => false,
             'created_at' => now(),
             'updated_at' => now()
         ]);

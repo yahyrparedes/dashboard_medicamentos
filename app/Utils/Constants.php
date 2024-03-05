@@ -16,6 +16,9 @@ class Constants
     public const ROLE_PATIENT = 'PACIENTE';
     public const _COOKIE_KEY_ = 'z5vHyTWe26LVWWIOCBH4sZ64sT9dxmwNeGPMofU0qLMFxT6HVKdqbU3y';
 
+    public const REMINDER_STATUS_APPLY = 'apply';
+    public const REMINDER_STATUS_PENDING = 'pending';
+    public const REMINDER_STATUS_IGNORE = 'ignore';
     public static function transformCode(string $code): string
     {
         $data = str_split($code, 3);
