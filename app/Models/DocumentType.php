@@ -14,7 +14,11 @@ class DocumentType extends Model
          'id', 'name', 'is_active'
     ];
 
-    protected $casts = [];
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+    ];
+
 
     // 1 => DNI
     // 2 => CARNE DE EXTRANJERIA

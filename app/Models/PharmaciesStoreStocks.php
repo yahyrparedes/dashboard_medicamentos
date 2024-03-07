@@ -17,4 +17,7 @@ class PharmaciesStoreStocks extends Model
         'stock',
         'is_active'
     ];
+    protected $casts = [
+        'id' => 'integer',
+    ];
 }

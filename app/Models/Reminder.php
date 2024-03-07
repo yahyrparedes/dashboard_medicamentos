@@ -37,4 +37,18 @@ class Reminder extends Model
         return $this->hasMany(ReminderDetail::class);
     }
 
+    protected $casts = [
+        'id' => 'integer',
+//        'user_id' => 'integer',
+//        'medication_id' => 'integer',
+//        'start_date' => 'date',
+//        'end_date' => 'date',
+//        'duration' => 'integer',
+//        'frequency' => 'integer',
+//        'horario' => 'string',
+//        'count' => 'integer',
+//        'frequency_daily' => 'integer',
+//        'is_active' => 'boolean'
+    ];
+
 }

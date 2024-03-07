@@ -21,4 +21,8 @@ class Medication extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected $casts = [
+        'id' => 'integer',
+    ];
 }

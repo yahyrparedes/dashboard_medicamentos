@@ -16,9 +16,16 @@ class Pharmacy extends Model
         'id', 'name',
     ];
 
+
+
     protected $hidden = [
         'is_active',
         'created_at',
         'updated_at',
+    ];
+
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
     ];
 }

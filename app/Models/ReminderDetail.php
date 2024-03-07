@@ -18,4 +18,14 @@ class ReminderDetail extends Model
         'is_active'
     ];
 
+    protected $casts = [
+        'id' => 'integer',
+//        'user_id' => 'integer',
+//        'reminder_id' => 'integer',
+//        'position' => 'integer',
+//        'horario' => 'string',
+//        'dosis' => 'string',
+//        'is_active' => 'boolean'
+    ];
+
 }

@@ -13,4 +13,8 @@ class Province extends Model
         'id', 'name'
     ];
 
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+    ];
 }

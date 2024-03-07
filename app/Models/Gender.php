@@ -18,6 +18,11 @@ class Gender extends Model
         return $this->hasMany(User::class);
     }
 
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+    ];
+
     protected $hidden = [
         'is_active',
         'created_at',

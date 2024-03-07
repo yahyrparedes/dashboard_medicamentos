@@ -21,4 +21,14 @@ class ReminderStatus extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+        'id' => 'integer',
+        'reminder_id' => 'integer',
+        'reminder_detail_id' => 'integer',
+//        'position' => 'integer',
+//        'horario' => 'string',
+//        'type' => 'string',
+//        'is_active' => 'boolean',
+    ];
+
 }

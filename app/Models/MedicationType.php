@@ -23,4 +23,9 @@ class MedicationType extends Model
         return $this->hasMany( Medication::class, 'medication_type_id' );
     }
 
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+    ];
+
 }
