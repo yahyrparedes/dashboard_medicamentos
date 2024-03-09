@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
 use App\Models\User;
+use App\Models\UserDoctor;
 use App\Models\UserLocation;
 use App\Utils\Constants;
 use Illuminate\Http\Request;
@@ -78,13 +79,18 @@ class AuthenticationController extends Controller
             $user->type = Constants::ROLE_PATIENT;
         }
 
-//        $location = UserLocation::create([
-//            'user_id' => $user->id,
-//            'department_id' => $request->department_id,
-//            'province_id' => $request->province_id,
-//            'district_id' => $request->district_id,
-//            'is_active' => true,
-//        ]);
+        if ($request->type == Constants::ROLE_PATIENT) {
+
+            $userDoctor = UserDoctor::create([
+                'user_id' => $user->id,
+                'doctor_id' => $request->doctor_id,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            $user['doctor_id'] = $userDoctor->doctor_id;
+        }
 
         return response()->json($user, 200);
     }

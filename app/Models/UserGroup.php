@@ -11,5 +11,4 @@ class UserGroup extends Model
 
     protected $table = 'users_groups';
 
-
 }

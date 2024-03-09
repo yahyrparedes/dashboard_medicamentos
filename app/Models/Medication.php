@@ -10,7 +10,7 @@ class Medication extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 'name', 'medication_type_id'
+        'id', 'name', 'medication_type_id', 'user_id', 'is_active', 'created_by'
     ];
 
     public function medicationsType() {

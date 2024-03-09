@@ -20,6 +20,7 @@ class MedicationController extends Controller
                 ->where('medication_types.is_active', '=', true);
             })
             ->where('medications.is_active', '=', true)
+            ->where('medications.created_by', '=', null)
             ->orderBy('medications.id')->get();
 
         return response()->json($department);

@@ -38,6 +38,11 @@ class MedicationSeeder extends Seeder
             'medication_type_id' => 1,
             'is_active' => true,
         ]);
-
+        DB::table('medications')->insert([
+            'id' => 5,
+            'name' => 'Otro medicamento',
+            'medication_type_id' => 1,
+            'is_active' => true,
+        ]);
     }
 }

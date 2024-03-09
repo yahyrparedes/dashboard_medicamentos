@@ -96,7 +96,7 @@
                         {{ $data->cmp }}
                     </td>
                     <td>
-                        {{ $data->is_imported ?  'No' :'Si'}}
+                        {{ $data->is_imported ?  'Si' :'No'}}
                     </td>
                     <td>
                         @if($data->is_active)
