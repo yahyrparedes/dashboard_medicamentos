@@ -24,18 +24,14 @@ class DoctorController extends Controller
                 $join->on('model_has_roles.model_id', '=', 'users.id')
                     ->where('model_has_roles.role_id', '=', $role->id);
             })
-//            ->join('model_has_roles', function ($join) use ($role) {
-//                $join->on('model_has_roles.model_id', '=', 'users.id')
-//                    ->where('model_has_roles.role_id', '=', $role->id);
-//            })
-            ->where('users.is_active', '=', true)
+//            ->where('users.is_active', '=', true)
             ->paginate(50);
 
         return view('users.doctor', compact('doctors'));
 
     }
 
-    public function update(Request $request, $id): \Illuminate\Http\Response
+    public function update(Request $request, $id)
     {
         $request->validate([
             'active' => 'required',

@@ -68,9 +68,7 @@
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo</th>
-                <th>CMP</th>
                 <th>Estado</th>
-
             </tr>
             </thead>
             <tbody>
@@ -92,9 +90,6 @@
                         {{ $data->email }}
                     </td>
                     <td>
-                        {{ $data->cmp }}
-                    </td>
-                    <td>
                         @if($data->is_active)
                             <form method="post" action="{{ route('patients.update', $data->id) }}">
                                 @method('PATCH')
@@ -105,7 +100,7 @@
                                 </button>
                             </form>
                         @else
-                            <form method="post" action="{{ route('gender.update', $data->id) }}">
+                            <form method="post" action="{{ route('patients.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
                                 <input type="text" class="form-control" name="active" value="1" hidden/>
@@ -114,6 +109,15 @@
                                 </button>
                             </form>
                         @endif
+                    </td>
+                    <td>
+                        <form method="post" action="{{ route('patients.reports',  $data->id)}}">
+                            @method('POST')
+                            @csrf
+                            <input type="text" id="id" name="id" value="all" hidden/>
+                            <button class="text-muted btn btn-outline-dark  btn-icon">
+                                <i class="bi bi-download"></i> Descargar</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

@@ -100,7 +100,7 @@
                     </td>
                     <td>
                         @if($data->is_active)
-                            <form method="post" action="{{ route('patients.update', $data->id) }}">
+                            <form method="post" action="{{ route('doctors.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
                                 <input type="text" class="form-control" name="active" value="0" hidden/>
@@ -109,7 +109,7 @@
                                 </button>
                             </form>
                         @else
-                            <form method="post" action="{{ route('gender.update', $data->id) }}">
+                            <form method="post" action="{{ route('doctors.update', $data->id) }}">
                                 @method('PATCH')
                                 @csrf
                                 <input type="text" class="form-control" name="active" value="1" hidden/>
