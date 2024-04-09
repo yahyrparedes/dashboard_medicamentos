@@ -11,12 +11,13 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: some
+      MYSQL_ROOT_PASSWORD: mysql
       # MYSQL_DATABASE: medicamento
       MYSQL_USER: medicamento
       MYSQL_PASSWORD: medicamento
     networks:
       - wordpress-platform
+
 volumes:
   db_data: {}
 

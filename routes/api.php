@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DocumentTypeController;
 use App\Http\Controllers\Api\GenderController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\MedicationController;
+use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\PharmacyController;
 use App\Http\Controllers\Api\ReminderController;
 use App\Http\Controllers\Api\ReminderDetailController;
@@ -34,6 +35,10 @@ Route::get('genders', [GenderController::class, 'list']);
 Route::get('documents', [DocumentTypeController::class, 'list']);
 
 Route::get('doctors', [DoctorController::class, 'list']);
+Route::get('doctors/{id}/patients', [PatientController::class, 'patientsByDoctor']);
+Route::delete('doctors/{doctor}/patients/{patient}', [PatientController::class, 'deletePatientByDoctor']);
+Route::post('doctor/patient', [DoctorController::class, 'addPatientToDoctor']);
+Route::get('patients', [PatientController::class, 'list']);
 Route::get('medication/types', [MedicationController::class, 'types']);
 Route::get('medication/units', [MedicationController::class, 'units']);
 Route::get('medications', [MedicationController::class, 'list']);

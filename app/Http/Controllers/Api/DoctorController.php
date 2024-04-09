@@ -33,4 +33,34 @@ class DoctorController extends Controller
         return response()->json($list);
     }
 
+    public function addPatientToDoctor(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $data = $request->all();
+
+        if (!isset($data['user']) || !isset($data['doctor'])) {
+            return response()->json(['message' => 'Invalid data'], 400);
+        }
+
+        $user_id = $data['user'];
+        $doctor_id = $data['doctor'];
+
+        $userDoctor = DB::table('user_doctor')
+            ->select('id')
+            ->where('is_active', '=', true)
+            ->where('user_id', '=', $user_id)
+            ->where('doctor_id', '=', $doctor_id)
+            ->first();
+
+        if ($userDoctor == null) {
+            DB::table('user_doctor')->insert([
+                'user_id' => $user_id,
+                'doctor_id' => $doctor_id,
+                'is_active' => true
+            ]);
+            return response()->json(['message' => 'Patient added to doctor'], 201);
+        } else {
+            return response()->json(['message' => 'Patient already added to doctor'], 200);
+        }
+    }
+
 }
