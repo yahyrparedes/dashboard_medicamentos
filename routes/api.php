@@ -35,6 +35,7 @@ Route::get('genders', [GenderController::class, 'list']);
 Route::get('documents', [DocumentTypeController::class, 'list']);
 
 Route::get('doctors', [DoctorController::class, 'list']);
+Route::post('doctor/patient/filter', [DoctorController::class, 'filterPatients']);
 Route::get('doctors/{id}/patients', [PatientController::class, 'patientsByDoctor']);
 Route::delete('doctors/{doctor}/patients/{patient}', [PatientController::class, 'deletePatientByDoctor']);
 Route::post('doctor/patient', [DoctorController::class, 'addPatientToDoctor']);

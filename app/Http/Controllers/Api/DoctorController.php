@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Utils\Constants;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -61,6 +62,56 @@ class DoctorController extends Controller
         } else {
             return response()->json(['message' => 'Patient already added to doctor'], 200);
         }
+    }
+
+    public function filterPatients(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $data = $request->all();
+
+        $doctor = $data['doctor'];
+        $date = $data['date'];
+
+        if (!isset($doctor) || !isset($date)) {
+            return response()->json(['message' => 'Invalid data'], 400);
+        }
+
+        $userIds = DB::table('user_doctor')
+            ->select('user_id')
+            ->where('is_active', '=', true)
+            ->where('doctor_id', '=', $doctor)
+            ->get();
+
+        if ($userIds->isEmpty()) {
+            return response()->json([], 200);
+        }
+
+        $weekMap = [0 => 'D', 1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', 6 => 'S'];
+        $dayOfTheWeek = Carbon::parse()->dayOfWeek;
+        $weekday = $weekMap[$dayOfTheWeek];
+
+        $users = DB::table('users')
+            ->select('id', 'name', 'last_name', 'email', 'document', 'birthday', 'phone',)
+            ->whereIn('id', $userIds->pluck('user_id'))
+            ->get();
+
+        foreach ($users as $user) {
+            $remainder = DB::table('reminders')
+                ->join('users', 'reminders.user_id', '=', 'users.id')
+                ->join('medications', 'reminders.medication_id', '=', 'medications.id')
+                ->where('frequency', 'like', '%' . $weekday . '%')
+                ->whereRaw('? between `start_date` and `end_date`', $date)
+                ->where('reminders.is_active', '=', true)
+                ->where('users.id', '=', $user->id)
+                ->select(
+//                    'reminders.id', 'medication_id', 'start_date', 'end_date', 'duration', 'frequency', 'count', 'frequency_daily',
+                    'medications.name as medication_name')
+                ->get();
+
+            $remainder =  $remainder->pluck('medication_name')->toArray();
+            $user->medications = $remainder;
+        }
+
+        return response()->json($users);
     }
 
 }

@@ -132,7 +132,6 @@ class ReminderController extends Controller
             ->join('medications', 'reminders.medication_id', '=', 'medications.id')
             ->where('reminder_details.user_id', '=', $data['user_id'])
             ->where('reminder_details.is_active', '=', true)
-//            ->orderBy('reminder_details.position')
             ->get();
 
 
@@ -205,8 +204,6 @@ class ReminderController extends Controller
 
     public function status(Request $request): \Illuminate\Http\JsonResponse
     {
-
-
         $validatedData = Validator::make($request->all(), [
             'id' => ['required', 'integer'],
             'detail_id' => ['required', 'integer'],

@@ -92,8 +92,6 @@ class PatientController extends Controller
                 'is_active' => false,
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
-
-
         return response()->json(['message' => 'Record deleted successfully', 'status' => 200, 'data' => $userDoctor]);
     }
 
