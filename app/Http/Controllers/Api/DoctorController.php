@@ -29,6 +29,8 @@ class DoctorController extends Controller
             ->where('users.is_active', '=', true)
             ->where('users.name', '=', $name)
             ->orWhere('users.name', 'like', '%' . $name . '%')
+            ->orWhere('users.last_name', '=', $name)
+            ->orWhere('users.last_name', 'like', '%' . $name . '%')
             ->get();
 
         return response()->json($list);
