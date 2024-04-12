@@ -27,7 +27,7 @@ class DoctorController extends Controller
                     ->where('model_has_roles.role_id', '=', $role_doctor->id);
             })
             ->where('users.is_active', '=', true)
-            ->where('users.name', '=', $name)
+            ->orWhere('users.name', '=', $name)
             ->orWhere('users.name', 'like', '%' . $name . '%')
             ->orWhere('users.last_name', '=', $name)
             ->orWhere('users.last_name', 'like', '%' . $name . '%')
