@@ -66,7 +66,7 @@ class UserSeeder extends Seeder
             'gender_id' => 1,
             'created_at' => now(),
             'updated_at' => now()
-        ])->assignRole(Constants::ROLE_ADMIN);
+        ])->assignRole(Constants::ROLE_ADMIN)->save();
 
         User::create([
             'id' => 5,
@@ -79,6 +79,6 @@ class UserSeeder extends Seeder
             'gender_id' => 1,
             'created_at' => now(),
             'updated_at' => now()
-        ])->assignRole(Constants::ROLE_DOCTOR);
+        ])->assignRole(Constants::ROLE_DOCTOR)->save();
     }
 }

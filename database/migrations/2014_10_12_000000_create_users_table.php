@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('token', 250)->nullable()->default(null);
             $table->foreignIdFor(Gender::class, 'gender_id')->nullable();
             $table->foreignIdFor(DocumentType::class, 'document_type_id')->nullable();
             $table->string('document', 15)->nullable();

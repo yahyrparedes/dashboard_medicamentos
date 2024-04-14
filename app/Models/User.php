@@ -28,11 +28,13 @@ class User extends Authenticatable
         'document',
         'birthday',
         'phone',
+        'token',
         'cmp',
         'ubigeo',
         'is_imported',
         'is_active',
     ];
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -55,7 +57,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'birthday' => 'date', 'email_verified_at' => 'datetime', 'id' => 'integer',
+        'birthday' => 'datetime:Y-m-d',
+        'email_verified_at' => 'datetime',
+        'id' => 'integer',
     ];
 
 }

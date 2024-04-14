@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
+use App\Models\District;
 use App\Models\Gender;
+use App\Models\Province;
 use App\Models\User;
 use App\Models\UserDoctor;
-use App\Models\UserLocation;
 use App\Utils\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Testing\Fluent\Concerns\Has;
+use Dirape\Token\Token;
 
 class AuthenticationController extends Controller
 {
@@ -51,9 +53,12 @@ class AuthenticationController extends Controller
             return response()->json($validatedData->errors(), 400);
         }
 
+        $token = (new Token())->Unique('users', 'token', 60);
+
         $user = User::create([
             'name' => $request->name,
             'last_name' => $request->last_name,
+            'token' => $token,
             'email' => $request->email,
             'email_verified_at' => now(),
             'password' => Hash::make($request->password),
@@ -88,7 +93,6 @@ class AuthenticationController extends Controller
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-
             $user['doctor_id'] = $userDoctor->doctor_id;
         }
 
@@ -118,24 +122,48 @@ class AuthenticationController extends Controller
                 $type = Constants::ROLE_PATIENT;
             }
 
-            $user->type = $type;
+            if ($user->hasRole([Constants::ROLE_ADMIN])) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+
+            $user->token = (new Token())->Unique('users', 'token', 60);
+            $user->save();
 
             $gender = Gender::where('id', $user->gender_id)->first();
             $user->gender = $gender->name;
 
-
+            $user->type = $type;
             return response()->json($user);
         }
+
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     public function profile(Request $request): \Illuminate\Http\JsonResponse
     {
 
-        $user = User::where('id', '=', $request->id)->first();
+        $user = User::where('token', '=', $request->token)->first();
 
         if ($user == null) {
             return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $gender = Gender::where('id', $user->gender_id)->first();
+        $user->gender = $gender->name;
+
+        try {
+            $district = District::where('ubigeo', '=', $user->ubigeo)->first();
+            $user->district = $district->name;
+
+            $province = Province::where('id', $district->province_id)->first();
+            $user->province = $province->name;
+
+            $department = Department::where('id', $province->department_id)->first();
+            $user->department = $department->name;
+        } catch (\Exception $e) {
+            $user->district = '';
+            $user->province = '';
+            $user->department = '';
         }
 
         if ($user->hasRole([Constants::ROLE_ADMIN])) {
@@ -144,6 +172,12 @@ class AuthenticationController extends Controller
             if ($user->hasRole([Constants::ROLE_DOCTOR])) {
                 $user->type = Constants::ROLE_DOCTOR;
             } else {
+                try {
+                    $doctor = User::where('id', UserDoctor::where('user_id', $user->id)->where('is_active', true)->first()->doctor_id)->first();
+                    $user->doctor = $doctor->name . ' ' . $doctor->last_name;
+                } catch (\Exception $e) {
+                    $user->doctor = "";
+                }
                 $user->type = Constants::ROLE_PATIENT;
             }
         }
