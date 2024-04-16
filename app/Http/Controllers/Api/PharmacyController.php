@@ -96,7 +96,7 @@ class PharmacyController extends Controller
             $exp = explode(" ", $detail->description);
             if (count($exp) > 0) {
                 unset($exp[0]);
-                $detail->description = implode($exp);
+                $detail->description = implode(" ", $exp);
             }
         }
 
