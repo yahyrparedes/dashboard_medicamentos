@@ -26,12 +26,15 @@ class DoctorController extends Controller
                 $join->on('model_has_roles.model_id', '=', 'users.id')
                     ->where('model_has_roles.role_id', '=', $role_doctor->id);
             })
-            ->where('users.is_active', '=', true)
-//            ->orWhere('users.name', '=', $name)
-            ->Where('users.name', 'like', '%' . $name . '%')
-//            ->orWhere('users.last_name', '=', $name)
-            ->orWhere('users.last_name', 'like', '%' . $name . '%')
+            ->whereRaw("CONCAT(users.name, ' ', users.last_name) like ?", ['%' . $name . '%'])
+//            ->where('users.is_active', '=', true)
+////            ->orWhere('users.name', '=', $name)
+//            ->Where('users.name', 'like', '%' . $name . '%')
+////            ->orWhere('users.last_name', '=', $name)
+//            ->orWhere('users.last_name', 'like', '%' . $name . '%')
             ->get();
+
+
 
         return response()->json($list);
     }
