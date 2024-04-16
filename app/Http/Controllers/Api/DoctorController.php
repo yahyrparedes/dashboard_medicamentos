@@ -98,6 +98,8 @@ class DoctorController extends Controller
             ->whereIn('id', $userIds->pluck('user_id'))
             ->get();
 
+        $_users = [];
+
         foreach ($users as $user) {
             $remainder = DB::table('reminders')
                 ->join('users', 'reminders.user_id', '=', 'users.id')
@@ -111,18 +113,15 @@ class DoctorController extends Controller
                     'medications.name as medication_name')
                 ->get();
 
-            $remainder = $remainder->pluck('medication_name')->toArray();
-
-            $user->medications = $remainder;
-        }
-
-        foreach ($users as $user => $value) {
-            if (isset($user->medications) && is_array($user->medications) && count($user->medications) == 0) {
-                unset($users[$value]);
+            if ($remainder->isEmpty()) {
+                continue;
+            } else {
+                $remainder = $remainder->pluck('medication_name')->toArray();
+                $user->medications = $remainder;
+                $_users[] = $user;
             }
         }
-
-        return response()->json($users);
+        return response()->json($_users);
     }
 
 }
