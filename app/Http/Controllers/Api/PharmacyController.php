@@ -34,7 +34,7 @@ class PharmacyController extends Controller
 
         $query = DB::table('pharmacies_store')
             ->select('pharmacies_store.id', 'pharmacies_store.code', 'pharmacies_store.description',
-                'pharmacies_store.format', 'pharmacies_store.address')
+                 'pharmacies_store.address', 'pharmacies.name as format' )
             ->where('pharmacies_store.is_active', '=', true)
             ->where('pharmacies_store.department_id', '=', $department_id);
 
@@ -56,11 +56,12 @@ class PharmacyController extends Controller
 
         if (trim($pharmacies) != "") {
             $p = explode(',', trim($pharmacies));
-            $query->whereIn('pharmacies_store.format', function ($subQuery) use ($p) {
-                $subQuery->select('pharmacies.name')
-                    ->from('pharmacies')
+            $query->join('pharmacies',function ($join) use ($p) {
+                $join->on('pharmacies_store.pharmacy_id', '=', 'pharmacies.id')
                     ->whereIn('pharmacies.id', $p);
             });
+        } else {
+            $query-> join('pharmacies', 'pharmacies_store.pharmacy_id', '=', 'pharmacies.id');
         }
 
         $list = $query->get();
@@ -77,14 +78,13 @@ class PharmacyController extends Controller
 
         $detail = DB::table('pharmacies_store')
             ->select('pharmacies_store.id', 'pharmacies_store.code', 'pharmacies_store.description',
-                'pharmacies_store.format', 'pharmacies_store.address', 'pharmacies_store.department_id',
+                 'pharmacies.name as format', 'pharmacies_store.address', 'pharmacies_store.department_id',
 //                'departments.name as department', 'provinces.name as province', 'districts.name as district'
             )
+            ->join('pharmacies', 'pharmacies_store.pharmacy_id', '=', 'pharmacies.id')
 //            ->join('departments', 'pharmacies_store.department_id', '=', 'departments.id')
 //            ->join('provinces', 'pharmacies_store.province_id', '=', 'provinces.id')
 //            ->join('districts', 'pharmacies_store.district_id', '=', 'districts.id')
-
-
             ->where('pharmacies_store.is_active', '=', true)
             ->where('pharmacies_store.id', '=',  $id)
             ->first();
@@ -92,7 +92,7 @@ class PharmacyController extends Controller
         if ($detail == null) {
             return response()->json([], 400);
         }
-        if ($detail->format == 'INKAFARMA') {
+        if ($detail->format == 'Inkafarma') {
             if ( $detail->department_id == 15) {
                 $detail->phone = '(01) 3142020';
                 $detail->web = 'www.inkafarma.pe';
@@ -100,7 +100,7 @@ class PharmacyController extends Controller
                 $detail->phone = '';
                 $detail->web = '';
             }
-        } else if ($detail->format == 'MIFARMA'){
+        } else if ($detail->format == 'Mifarma'){
             if ( $detail->department_id == 15) {
                 $detail->phone = '(01) 6125000';
                 $detail->web = 'www.mifarma.com.pe';

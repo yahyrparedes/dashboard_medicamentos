@@ -94,7 +94,11 @@ class AuthenticationController extends Controller
                 'updated_at' => now()
             ]);
             $user['doctor_id'] = $userDoctor->doctor_id;
+
         }
+
+
+
 
         return response()->json($user, 200);
     }
