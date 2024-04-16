@@ -35,7 +35,6 @@ class DoctorController extends Controller
             ->get();
 
 
-
         return response()->json($list);
     }
 
@@ -112,8 +111,15 @@ class DoctorController extends Controller
                     'medications.name as medication_name')
                 ->get();
 
-            $remainder =  $remainder->pluck('medication_name')->toArray();
+            $remainder = $remainder->pluck('medication_name')->toArray();
+
             $user->medications = $remainder;
+        }
+
+        foreach ($users as $user => $value) {
+            if (isset($user->medications) && is_array($user->medications) && count($user->medications) == 0) {
+                unset($users[$value]);
+            }
         }
 
         return response()->json($users);
