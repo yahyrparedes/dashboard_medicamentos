@@ -20,12 +20,16 @@ class ReminderDetail extends Model
 
     protected $casts = [
         'id' => 'integer',
-//        'user_id' => 'integer',
-//        'reminder_id' => 'integer',
-//        'position' => 'integer',
-//        'horario' => 'string',
-//        'dosis' => 'string',
-//        'is_active' => 'boolean'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
+    public function reminder()
+    {
+        return $this->hasOne(Reminder::class ,   'id', 'reminder_id');
+    }
 
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reminder;
+use App\Models\ReminderDetail;
+use App\Models\User;
 use App\Utils\Constants;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,11 +30,6 @@ class DoctorController extends Controller
                     ->where('model_has_roles.role_id', '=', $role_doctor->id);
             })
             ->whereRaw("CONCAT(users.name, ' ', users.last_name) like ?", ['%' . $name . '%'])
-//            ->where('users.is_active', '=', true)
-////            ->orWhere('users.name', '=', $name)
-//            ->Where('users.name', 'like', '%' . $name . '%')
-////            ->orWhere('users.last_name', '=', $name)
-//            ->orWhere('users.last_name', 'like', '%' . $name . '%')
             ->get();
 
 
@@ -93,35 +91,31 @@ class DoctorController extends Controller
         $dayOfTheWeek = Carbon::parse()->dayOfWeek;
         $weekday = $weekMap[$dayOfTheWeek];
 
-        $users = DB::table('users')
-            ->select('id', 'name', 'last_name', 'email', 'document', 'birthday', 'phone',)
-            ->whereIn('id', $userIds->pluck('user_id'))
-            ->get();
-
-        $_users = [];
-
-        foreach ($users as $user) {
-            $remainder = DB::table('reminders')
-                ->join('users', 'reminders.user_id', '=', 'users.id')
-                ->join('medications', 'reminders.medication_id', '=', 'medications.id')
-                ->where('frequency', 'like', '%' . $weekday . '%')
-                ->whereRaw('? between `start_date` and `end_date`', $date)
-                ->where('reminders.is_active', '=', true)
-                ->where('users.id', '=', $user->id)
-                ->select(
-//                    'reminders.id', 'medication_id', 'start_date', 'end_date', 'duration', 'frequency', 'count', 'frequency_daily',
-                    'medications.name as medication_name')
-                ->get();
-
-            if ($remainder->isEmpty()) {
-                continue;
-            } else {
-                $remainder = $remainder->pluck('medication_name')->toArray();
-                $user->medications = $remainder;
-                $_users[] = $user;
-            }
-        }
-        return response()->json($_users);
+        $remainder = DB::table('reminders')
+            ->join('users', 'reminders.user_id', '=', 'users.id')
+            ->join('medications', 'reminders.medication_id', '=', 'medications.id')
+            ->where('frequency', 'like', '%' . $weekday . '%')
+            ->whereRaw('? between `start_date` and `end_date`', $date)
+            ->where('reminders.is_active', '=', true)
+            ->whereIn('users.id', $userIds->pluck('user_id'))
+            ->select(
+                'reminders.id as reminder_id', 'medications.name as medication_name',
+                'users.id', 'users.name', 'users.last_name', 'users.email', 'users.document', 'users.birthday', 'users.phone'
+            )->get();
+        return response()->json($remainder);
     }
 
+    public function reminderDetail(Request $request, $id): \Illuminate\Http\JsonResponse
+    {
+        $remainder = Reminder::where('id', $id)->first();
+        $remainder_detail = ReminderDetail::where('reminder_id', $id)->get();
+        $remainder->reminder_detail = $remainder_detail;
+        $user = User::where('id', $remainder->user_id)->first();
+        $_user['id'] = $user->id;
+        $_user['name'] = $user->name;
+        $_user['last_name'] = $user->last_name;
+        $_user['last_name'] = $user->last_name;
+        $remainder->user =  $user;
+        return response()->json($remainder);
+    }
 }

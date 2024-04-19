@@ -9,6 +9,8 @@ class Reminder extends Model
 {
     use HasFactory;
 
+    protected $table = 'reminders';
+
     protected $fillable = [
         'user_id',
         'medication_id',
@@ -19,36 +21,28 @@ class Reminder extends Model
         'horario',
         'count',
         'frequency_daily',
-        'is_active'
+        'is_active',
+        'reminder_details_id'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function medication()
-    {
-        return $this->belongsTo(Medication::class);
-    }
 
     public function reminderDetails()
     {
-        return $this->hasMany(ReminderDetail::class);
+        return $this->belongsTo(ReminderDetail::class);
     }
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
 
     protected $casts = [
         'id' => 'integer',
-//        'user_id' => 'integer',
-//        'medication_id' => 'integer',
-//        'start_date' => 'date',
-//        'end_date' => 'date',
-//        'duration' => 'integer',
-//        'frequency' => 'integer',
-//        'horario' => 'string',
-//        'count' => 'integer',
-//        'frequency_daily' => 'integer',
-//        'is_active' => 'boolean'
     ];
 
 }
