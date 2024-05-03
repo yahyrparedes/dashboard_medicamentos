@@ -262,11 +262,14 @@ class ReminderController extends Controller
                 'reminders.is_active',
                 'medications.name as medication',
                 'medications.medication_type_id',
-                'medications.description',
                 'medications.is_active as medication_is_active')
             ->join('medications', 'reminders.medication_id', '=', 'medications.id')
             ->where('reminders.id', '=', $id)
             ->first();
+
+        if ($remainder == null) {
+            return  response()->json([], 404);
+        }
 
         $remainder->details = DB::table('reminder_details')
             ->select(
@@ -280,8 +283,6 @@ class ReminderController extends Controller
             ->where('reminder_details.reminder_id', '=', $id)
             ->where('reminder_details.is_active', '=', true)
             ->get();
-
-
 
         return response()->json($remainder);
     }
