@@ -58,7 +58,7 @@ Route::get('reminders', [ReminderController::class, 'list']);
 Route::post('reminder', [ReminderController::class, 'create']);
 Route::delete('reminder/{id}', [ReminderController::class, 'delete']);
 Route::get('reminder/{id}', [ReminderController::class, 'detail']);
-Route::get('reminder-detail/{id}', [ReminderController::class, 'fullDetail']);
+Route::get('reminder-full-detail/{id}', [ReminderController::class, 'fullDetail']);
 Route::post('reminder/filter', [ReminderController::class, 'filter']);
 Route::post('reminder/status', [ReminderController::class, 'status']);
 
