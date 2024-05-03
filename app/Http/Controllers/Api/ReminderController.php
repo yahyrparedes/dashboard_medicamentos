@@ -265,6 +265,7 @@ class ReminderController extends Controller
                 'medications.is_active as medication_is_active')
             ->join('medications', 'reminders.medication_id', '=', 'medications.id')
             ->where('reminders.id', '=', $id)
+            ->where('reminders.is_active', '=', true)
             ->first();
 
         if ($remainder == null) {
