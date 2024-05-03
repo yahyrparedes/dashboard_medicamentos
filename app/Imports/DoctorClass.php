@@ -17,8 +17,8 @@ class DoctorClass implements ToModel, WithHeadingRow
 
     public function model(array $row)
     {
-        set_time_limit(360);
-        ini_set('memory_limit', '1024M');
+        set_time_limit(720);
+        ini_set('memory_limit', '2048M');
 
         if ($row['departamento'] != '' || $row['departamento'] != '*' || $row['departamento'] != null) {
             $department = DB::table('departments')->whereRaw("LOWER(name) = '" . Tools::basicCleanString($row['departamento']) . "'")->first();

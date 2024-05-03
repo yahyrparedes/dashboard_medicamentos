@@ -14,8 +14,8 @@ class MedicationClass implements ToModel /*, WithHeadingRow */
 
     public function model(array $row)
     {
-        set_time_limit(360);
-        ini_set('memory_limit', '1024M');
+        set_time_limit(720);
+        ini_set('memory_limit', '2048M');
 
         if ($row[1] == '' || $row[1] == '*' || $row[1] == null) {
             return null;

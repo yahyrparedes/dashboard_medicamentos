@@ -246,5 +246,44 @@ class ReminderController extends Controller
                 'message' => 'Record deleted successfully']);
     }
 
+    public function fullDetail(Request $request,  $id): \Illuminate\Http\JsonResponse
+    {
+
+        $remainder = DB::table('reminders')
+            ->select('reminders.id',
+                'reminders.user_id',
+                'reminders.medication_id',
+                'reminders.start_date',
+                'reminders.end_date',
+                'reminders.duration',
+                'reminders.frequency',
+                'reminders.count',
+                'reminders.frequency_daily',
+                'reminders.is_active',
+                'medications.name as medication',
+                'medications.medication_type_id',
+                'medications.description',
+                'medications.is_active as medication_is_active')
+            ->join('medications', 'reminders.medication_id', '=', 'medications.id')
+            ->where('reminders.id', '=', $id)
+            ->first();
+
+        $remainder->details = DB::table('reminder_details')
+            ->select(
+                'reminder_details.id',
+                'reminder_details.user_id',
+                'reminder_details.reminder_id',
+                'reminder_details.position',
+                'reminder_details.horario',
+                'reminder_details.dosis',
+                'reminder_details.is_active')
+            ->where('reminder_details.reminder_id', '=', $id)
+            ->where('reminder_details.is_active', '=', true)
+            ->get();
+
+
+
+        return response()->json($remainder);
+    }
 
 }

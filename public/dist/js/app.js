@@ -311,6 +311,8 @@ Author Website :    https://laborasyon.com/
     e.stopPropagation();
   });
 
+
+
   if ($('#TableOfContents').length) {
     var obj = [];
     var index;
