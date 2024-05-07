@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\DocumentTypeController;
 use App\Http\Controllers\Api\GenderController;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\Mailing;
 use App\Http\Controllers\Api\MedicationController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\PharmacyController;
@@ -26,6 +27,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+
+Route::get('recovery-password/{email}', [Mailing::class, 'sendMail']);
+Route::get('recovery-password-template', function (Request $request) {
+    return view('mail.app.recovery-password', [
+        'subject' => 'Recuperación de contraseña',
+        'token' => '12345',
+        'name' => 'Juanito',
+    ]);
 });
 
 Route::get('departments', [UbigeoController::class, 'departments']);

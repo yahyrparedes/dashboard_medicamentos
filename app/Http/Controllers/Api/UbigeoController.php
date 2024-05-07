@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class UbigeoController extends Controller
 {
-
     public function departments(): \Illuminate\Http\JsonResponse
     {
         $department = DB::table('departments')
