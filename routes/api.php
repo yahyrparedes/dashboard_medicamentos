@@ -31,13 +31,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('recovery-password/{email}', [Mailing::class, 'sendMail']);
-Route::get('recovery-password-template', function (Request $request) {
-    return view('mail.app.recovery-password', [
-        'subject' => 'Recuperación de contraseña',
-        'token' => '12345',
-        'name' => 'Juanito',
-    ]);
-});
+Route::post('recovery-password', [AuthenticationController::class, 'validateToken']);
+Route::post('change-password', [AuthenticationController::class, 'changePassword']);
 
 Route::get('departments', [UbigeoController::class, 'departments']);
 Route::get('provinces/{id}', [UbigeoController::class, 'provincesByDepartmentID']);

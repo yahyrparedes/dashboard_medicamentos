@@ -12,12 +12,60 @@ use App\Models\UserDoctor;
 use App\Utils\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Dirape\Token\Token;
 
 class AuthenticationController extends Controller
 {
+    public function changePassword(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validatedData = Validator::make($request->all(), [
+            'email' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if ($validatedData->fails()) {
+            return response()->json($validatedData->errors(), 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user == null) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'Password changed'], 200);
+    }
+
+    public function validateToken(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $validatedData = Validator::make($request->all(), [
+            'email' => ['required', 'string'],
+            'token' => ['required', 'numeric'],
+        ]);
+
+        if ($validatedData->fails()) {
+            return response()->json($validatedData->errors(), 400);
+        }
+
+        $token = DB::table('password_resets')
+            ->where('token', $request->token)
+            ->where('email', $request->email)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+
+        if ($token == null) {
+            return response()->json(['message' => 'Token not found'], 404);
+        } else {
+            return response()->json(['message' => 'Token found'], 200);
+        }
+    }
 
     public function register(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -98,10 +146,9 @@ class AuthenticationController extends Controller
         }
 
 
-
-
         return response()->json($user, 200);
     }
+
 
     public function login(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -142,6 +189,7 @@ class AuthenticationController extends Controller
 
         return response()->json(['error' => 'Unauthorized'], 401);
     }
+
 
     public function profile(Request $request): \Illuminate\Http\JsonResponse
     {
