@@ -25,7 +25,7 @@ class Mailing extends Controller
             return response()->json(['message' => 'ok', 'status' => 'ok']);
         } else {
             $token =  uniqid(rand(), true);
-            $token = substr($token, 0, 5);
+            $token = substr($token, 0, 6);
 
 //            DB::table('password_resets')->where('email', $email)->delete();
             DB::table('password_resets')->insert(['email' => $email, 'token' => $token, 'created_at' => date('Y-m-d H:i:s')]);
