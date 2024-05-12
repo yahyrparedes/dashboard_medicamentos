@@ -94,13 +94,18 @@ class DoctorController extends Controller
         $remainder = DB::table('reminders')
             ->join('users', 'reminders.user_id', '=', 'users.id')
             ->join('medications', 'reminders.medication_id', '=', 'medications.id')
+            ->join('genders', 'genders.id', 'users.gender_id')
+            ->join('districts', 'districts.ubigeo', '=', 'users.ubigeo')
+            ->join('provinces', 'provinces.id', '=', 'districts.province_id')
+            ->join('departments', 'departments.id', '=', 'provinces.department_id')
             ->where('frequency', 'like', '%' . $weekday . '%')
             ->whereRaw('? between `start_date` and `end_date`', $date)
             ->where('reminders.is_active', '=', true)
             ->whereIn('users.id', $userIds->pluck('user_id'))
             ->select(
                 'reminders.id as reminder_id', 'medications.name as medication_name',
-                'users.id', 'users.name', 'users.last_name', 'users.email', 'users.document', 'users.birthday', 'users.phone'
+                'users.id', 'users.name', 'users.last_name', 'users.email', 'users.document', 'users.birthday', 'users.phone', 'genders.name as gender',
+                'districts.name as district', 'provinces.name as province', 'departments.name as department'
             )->get();
         return response()->json($remainder);
     }
@@ -114,8 +119,7 @@ class DoctorController extends Controller
         $_user['id'] = $user->id;
         $_user['name'] = $user->name;
         $_user['last_name'] = $user->last_name;
-        $_user['last_name'] = $user->last_name;
-        $remainder->user =  $user;
+        $remainder->user = $user;
         return response()->json($remainder);
     }
 }
