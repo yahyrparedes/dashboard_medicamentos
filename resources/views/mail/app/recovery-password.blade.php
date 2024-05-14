@@ -240,7 +240,7 @@
                                                             style="font-size: 22px; line-height: 35.2px;">Hola, {{ $name }} </span>
                                                     </p>
                                                     <p style="font-size: 14px; line-height: 160%;"><span
-                                                            style="font-size: 18px; line-height: 28.8px;">Necesidad de restablecer su contraseña?
+                                                            style="font-size: 18px; line-height: 28.8px;">Estas recibiendo este correo porque solicitaste un cambio de contraseña para tu cuenta.</span>
  </span>
                                                     </p>
                                                     <p style="font-size: 14px; line-height: 160%;"><span
@@ -304,10 +304,10 @@
                                                 <div class="v-text-align"
                                                      style="color: #000000; line-height: 160%; text-align: center; word-wrap: break-word;">
                                                     <p style="line-height: 160%; font-size: 14px;"><span
-                                                            style="font-size: 18px; line-height: 28.8px;">Gracias,</span>
+                                                            style="font-size: 18px; line-height: 28.8px;">Si no realizaste esta solicitud, no se requiere realizar ninguna otra acción.</span>
                                                     </p>
                                                     <p style="line-height: 160%; font-size: 14px;"><span
-                                                            style="font-size: 18px; line-height: 28.8px;">Si no olvidó su contraseña, puede ignorar este correo electrónico.</span>
+                                                            style="font-size: 18px; line-height: 28.8px;">Saludos.</span>
                                                     </p>
                                                 </div>
 
@@ -338,43 +338,44 @@
                                     <table cellpadding="0" cellspacing="0" border="0" style="width:600px;">
                                         <tr style="background-color: #005cb9;">
 
-                        <!--[if (mso)|(IE)]>
-                        <td align="center" width="600"
-                            style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;"
-                            valign="top"><![endif]-->
-                        <div class="u-col u-col-100"
-                             style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
-                            <div style="width: 100% !important;">
-                                <!--[if (!mso)&(!IE)]><!-->
-                                <div
-                                    style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
-                                    <!--<![endif]-->
+                                            <!--[if (mso)|(IE)]>
+                                            <td align="center" width="600"
+                                                style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;"
+                                                valign="top"><![endif]-->
+                                            <div class="u-col u-col-100"
+                                                 style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
+                                                <div style="width: 100% !important;">
+                                                    <!--[if (!mso)&(!IE)]><!-->
+                                                    <div
+                                                        style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
+                                                        <!--<![endif]-->
 
-                                    <table id="u_content_text_8" class="u_content_text"
-                                           style="font-family:'Cabin',sans-serif;" role="presentation" cellpadding="0"
-                                           cellspacing="0" width="100%" border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Cabin',sans-serif;"
-                                                align="left">
+                                                        <table id="u_content_text_8" class="u_content_text"
+                                                               style="font-family:'Cabin',sans-serif;"
+                                                               role="presentation" cellpadding="0"
+                                                               cellspacing="0" width="100%" border="0">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Cabin',sans-serif;"
+                                                                    align="left">
 
-                                                <div class="v-text-align"
-                                                     style="color: #fafafa; line-height: 180%; text-align: center; word-wrap: break-word;">
-                                                    <p style="font-size: 14px; line-height: 180%;"><span
-                                                            style="font-size: 16px; line-height: 28.8px;">Copyrights &copy; Company All Rights Reserved</span>
-                                                    </p>
+                                                                    <div class="v-text-align"
+                                                                         style="color: #fafafa; line-height: 180%; text-align: center; word-wrap: break-word;">
+                                                                        <p style="font-size: 14px; line-height: 180%;"><span
+                                                                                style="font-size: 16px; line-height: 28.8px;">Copyrights &copy; Company All Rights Reserved</span>
+                                                                        </p>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
                                                 </div>
-
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-                                    <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                            </div>
-                        </div>
-                        <!--[if (mso)|(IE)]></td><![endif]-->
-                        <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+                                            </div>
+                                            <!--[if (mso)|(IE)]></td><![endif]-->
+                                            <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
                     </div>
                 </div>
             </div>
