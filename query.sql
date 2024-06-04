@@ -5,5 +5,14 @@ from users u
          inner join medications m on r.medication_id = m.id
 where  r.created_at between '2024-01-01' and '2024-12-31' ;
 
-;
+
+
+
+
+
+
+
+
+
+
 

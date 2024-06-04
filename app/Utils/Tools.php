@@ -109,8 +109,11 @@ class Tools
         return strtolower($text);
     }
 
-    public static function basicCleanString(string $text)
+    public static function basicCleanString(?string $text)
     {
+        if ($text == null || $text == "") {
+            return "";
+        }
         $text = str_replace("-", " ", strtolower($text));
         return strtolower($text);
     }
