@@ -29,6 +29,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Route::get('notifications', [AlarmNotification::class, 'notifications']);
 
 Route::get('recovery-password/{email}', [Mailing::class, 'sendMail']);
 Route::post('recovery-password', [AuthenticationController::class, 'validateToken']);

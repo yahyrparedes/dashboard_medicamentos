@@ -20,12 +20,23 @@ class PharmacyStoreClass implements ToModel, WithHeadingRow
         ini_set('memory_limit', '2048M');
 
 
+//        if ($row['departamento'] == '' || $row['departamento'] == '*' || $row['departamento'] == null) {
+//            return null;
+//        }
+//        if ($row['provincia'] == '' || $row['provincia'] == '*' || $row['provincia'] == null) {
+//            return null;
+//        }
+//        if ($row['distrito'] == '' || $row['distrito'] == '*' || $row['distrito'] == null) {
+//            return null;
+//        }
+
         if ($row['departamento'] == '' || $row['departamento'] == '*' || $row['departamento'] == null) {
             $departmentId = null;
             $provinceId = null;
             $districtId = null;
         } else {
-            $departmentId = DB::table('departments')->whereRaw("LOWER(name) = '" . Tools::basicCleanString($row['departamento']) . "'")->first();
+            $departmentId = DB::table('departments')
+                ->whereRaw("LOWER(name) = '" . Tools::basicCleanString($row['departamento']) . "'")->first();
 
             if ($departmentId != null) {
                 $departmentId = $departmentId->id;
@@ -33,8 +44,8 @@ class PharmacyStoreClass implements ToModel, WithHeadingRow
                     $provinceId = null;
                     $districtId = null;
                 } else {
-                    $province = DB::table('provinces')->whereRaw("LOWER(name) = '" . Tools::basicCleanString($row['provincia']) . "'")
-                        ->orWhereRaw("LOWER(name) like '%" . Tools::cleanString($row['provincia']) . "%'")
+                    $province = DB::table('provinces')
+                        ->whereRaw("LOWER(name) like '%" . Tools::cleanString($row['provincia']) . "%'")
                         ->where('department_id', $departmentId)
                         ->first();
                     if ($province != null) {
@@ -42,8 +53,8 @@ class PharmacyStoreClass implements ToModel, WithHeadingRow
                         if ($row['distrito'] == '' || $row['distrito'] == '*' || $row['distrito'] == null) {
                             $districtId = null;
                         } else {
-                            $district = DB::table('districts')->whereRaw("LOWER(name) = '" . Tools::basicCleanString($row['distrito']) . "'")
-                                ->orWhereRaw("LOWER(name) like '%" . Tools::cleanString($row['distrito']) . "%'")
+                            $district = DB::table('districts')
+                                ->whereRaw("LOWER(name) like '%" . Tools::cleanString($row['distrito']) . "%'")
                                 ->where('province_id', $provinceId)->first();
                             if ($district != null) {
                                 $districtId = $district->id;

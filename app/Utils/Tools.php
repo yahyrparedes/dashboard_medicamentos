@@ -73,7 +73,7 @@ class Tools
         return $tab;
     }
 
-    public static function cleanString(string $text)
+    public static function cleanString(string $text): string
     {
         $text = str_replace("-", " ", strtolower($text));
         $text = str_replace(".", "", strtolower($text));
@@ -109,7 +109,7 @@ class Tools
         return strtolower($text);
     }
 
-    public static function basicCleanString(?string $text)
+    public static function basicCleanString(?string $text): string
     {
         if ($text == null || $text == "") {
             return "";

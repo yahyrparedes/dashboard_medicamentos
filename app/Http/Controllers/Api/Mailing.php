@@ -31,7 +31,6 @@ class Mailing extends Controller
             DB::table('password_resets')->insert(['email' => $email, 'token' => $token, 'created_at' => date('Y-m-d H:i:s')]);
 
             Mail::to($email)->send(new RecoveryPasswordApp($user->name, $token));
-
             return response()->json(['message' => 'Email sent', 'status' => 'send']);
         }
     }

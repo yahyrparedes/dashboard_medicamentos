@@ -66,7 +66,6 @@ class ReminderController extends Controller
             $data['medication_id'] = $medicationId;
         }
 
-
         $remainderId = DB::table('reminders')
             ->insertGetId([
                 'user_id' => $data['user_id'],
