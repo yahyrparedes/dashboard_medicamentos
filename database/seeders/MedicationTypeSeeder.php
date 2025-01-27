@@ -16,7 +16,7 @@ class MedicationTypeSeeder extends Seeder
     {
         DB::table('medication_types')->insert([
             'id' => 1,
-            'name' => 'Solucion Oftalmica',
+            'name' => 'Solución Oftálmica',
             'is_active' => true,
         ]);
         DB::table('medication_types')->insert([
