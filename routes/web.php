@@ -35,13 +35,18 @@ Route::get('/artisan', function () {
     Artisan::queue('db:seed');
 });
 
+Route::get('/migrate', function () {
+    Artisan::queue('migrate');
+});
+
+
 Route::get('/', function () {
     return redirect('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+//Route::get('/patients', function () {
+//    return view('dashboard');
+//})->middleware(['auth'])->name('dashboard');
 
 
 Route::group(['middleware' => 'auth'], function () {

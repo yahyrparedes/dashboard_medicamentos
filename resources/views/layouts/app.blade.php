@@ -572,16 +572,38 @@
             </div>
         </div>
         <ul>
-            {{--            <li class="menu-divider">E-Commerce</li>--}}
+
+
+            <li class="menu-divider">Usuarios</li>
             <li>
-                <a @if(!request()->segment(1) || request()->is('dashboard')) class="active"
-                   @endif href="{{ route('dashboard') }}">
-                    <span class="nav-link-icon">
-                        <i class="bi bi-bar-chart"></i>
+                <a @if(request()->segment(1) == 'patients') class="active"
+                   @endif href="{{ route('patients.index') }}">
+                     <span class="nav-link-icon">
+                        <i class="bi bi-person-circle"></i>
                     </span>
-                    <span>Dashboard</span>
+                    <span>Pacientes</span>
                 </a>
             </li>
+            <li>
+                <a @if(request()->segment(1) == 'doctors') class="active"
+                   @endif href="{{ route('doctors.index') }}">
+                     <span class="nav-link-icon">
+                       <i class="bi bi-person-square"></i>
+                    </span>
+                    <span>Doctores</span>
+                </a>
+            </li>
+
+            {{--            <li class="menu-divider">E-Commerce</li>--}}
+{{--            <li>--}}
+{{--                <a @if(!request()->segment(1) || request()->is('dashboard')) class="active"--}}
+{{--                   @endif href="{{ route('dashboard') }}">--}}
+{{--                    <span class="nav-link-icon">--}}
+{{--                        <i class="bi bi-bar-chart"></i>--}}
+{{--                    </span>--}}
+{{--                    <span>Dashboard</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
             {{--            <li>--}}
             {{--                <a href="#">--}}
             {{--                    <span class="nav-link-icon">--}}
@@ -728,27 +750,6 @@
                     <span>Generos</span>
                 </a>
             </li>
-
-            <li class="menu-divider">Usuarios</li>
-            <li>
-                <a @if(request()->segment(1) == 'patients') class="active"
-                   @endif href="{{ route('patients.index') }}">
-                     <span class="nav-link-icon">
-                        <i class="bi bi-person-circle"></i>
-                    </span>
-                    <span>Pacientes</span>
-                </a>
-            </li>
-            <li>
-                <a @if(request()->segment(1) == 'doctors') class="active"
-                   @endif href="{{ route('doctors.index') }}">
-                     <span class="nav-link-icon">
-                       <i class="bi bi-person-square"></i>
-                    </span>
-                    <span>Doctores</span>
-                </a>
-            </li>
-
 
             <li class="menu-divider">Farmacias</li>
             <li>
