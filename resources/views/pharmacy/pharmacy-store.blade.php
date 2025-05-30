@@ -14,28 +14,26 @@
         <div class="card-body">
             <div class="d-md-flex">
                 <div class="d-md-flex gap-4 align-items-center">
-                    <form class="mb-3 mb-md-0">
+                    <form class="mb-3 mb-md-0" method="GET" action="{{ route('pharmacy_store.index') }}">
                         <div class="row g-3">
                             <div class="col-md-3">
-                                <select class="form-select">
-                                    <option>Sort by</option>
-                                    <option value="desc">Desc</option>
-                                    <option value="asc">Asc</option>
+                                <select class="form-select" name="sort">
+                                    <option value="">Ordenar por</option>
+                                    <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Desc</option>
+                                    <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Asc</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <select class="form-select">
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
-                                    <option value="30">30</option>
-                                    <option value="40">40</option>
-                                    <option value="50">50</option>
+                                <select class="form-select" name="per_page">
+                                    @foreach([10,20,30,40,50] as $n)
+                                        <option value="{{ $n }}" {{ request('per_page', 50) == $n ? 'selected' : '' }}>{{ $n }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                    <button class="btn btn-outline-light" type="button">
+                                    <input type="text" class="form-control" name="search" placeholder="Buscar" value="{{ request('search') }}">
+                                    <button class="btn btn-outline-light" type="submit">
                                         <i class="bi bi-search"></i>
                                     </button>
                                 </div>
@@ -75,7 +73,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($department as $data)
+            @foreach($stores as $data)
                 <tr>
                     <td>
                         <input class="form-check-input" type="checkbox">
@@ -131,7 +129,7 @@
     </div>
 
 
-    {{ $department->links('vendor.pagination.custom') }}
+    {{ $stores->links('vendor.pagination.custom') }}
 
 @endsection
 

@@ -14,15 +14,39 @@ class PharmacyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $department = DB::table('pharmacies')
-            ->select('id', 'name',  'is_active')
-            ->paginate(50);
-        return view('pharmacy.pharmacy', compact('department'));
+//    public function index()
+//    {
+//        $department = DB::table('pharmacies')
+//            ->select('id', 'name',  'is_active')
+//            ->paginate(50);
+//        return view('pharmacy.pharmacy', compact('department'));
+//
+//    }
 
+    public function index(Request $request)
+    {
+        $pharmacies = $this->getFilteredPharmacies($request);
+        return view('pharmacy.pharmacy', ['department' => $pharmacies]);
     }
 
+    private function getFilteredPharmacies(Request $request)
+    {
+        $query = \DB::table('pharmacies')->select('id', 'name', 'is_active');
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('sort')) {
+            $query->orderBy('name', $request->sort);
+        } else {
+            $query->orderBy('id', 'asc');
+        }
+
+        $perPage = $request->input('per_page', 50);
+
+        return $query->paginate($perPage)->appends($request->all());
+    }
     /**
      * Update the specified resource in storage.
      *

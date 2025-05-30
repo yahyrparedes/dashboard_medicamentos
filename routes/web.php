@@ -100,6 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('district/{id}', [DistrictController::class, 'show'])->name('district.show');
     Route::patch('district/{id}', [DistrictController::class, 'update'])->name('district.update');
 
+    /*
     Route::get('orders', function () {
         return view('orders');
     })->name('orders');
@@ -167,11 +168,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('user-grid', function () {
         return view('user-grid');
     })->name('user-grid');
-
+*/
     Route::get('settings', function () {
         return view('settings');
     })->name('settings');
-
+/*
     Route::get('login', function () {
         return view('login');
     })->name('login');
@@ -475,6 +476,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('code-highlighter', function () {
         return view('code-highlighter');
     })->name('code-highlighter');
+    */
 });
 
 require __DIR__ . '/auth.php';

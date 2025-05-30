@@ -14,14 +14,38 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+//    public function index()
+//    {
+//        $department = DB::table('departments')
+//            ->select('id', 'name', 'ubigeo', 'is_active')
+//            ->orderBy('ubigeo')
+//            ->paginate(50);
+//        return view('ubigeo.department', compact('department'));
+//
+//    }
+    public function index(Request $request)
     {
-        $department = DB::table('departments')
-            ->select('id', 'name', 'ubigeo', 'is_active')
-            ->orderBy('ubigeo')
-            ->paginate(50);
-        return view('ubigeo.department', compact('department'));
+        $query = DB::table('departments')
+            ->select('id', 'name', 'is_active');
 
+        // Filtro de búsqueda
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // Orden
+        if ($request->filled('sort')) {
+            $query->orderBy('name', $request->sort);
+        } else {
+            $query->orderBy('id', 'asc');
+        }
+
+        // Cantidad por página
+        $perPage = $request->input('per_page', 50);
+
+        $department = $query->paginate($perPage)->appends($request->all());
+
+        return view('ubigeo.department', compact('department'));
     }
 
     /**

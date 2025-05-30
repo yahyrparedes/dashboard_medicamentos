@@ -16,17 +16,17 @@ class ProvinceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
-    {
-        $province = DB::table('provinces')
-            ->select('id', 'department_id', 'ubigeo', 'name', 'is_active')
-            ->orderBy('name')
-            ->paginate(50);
-
-
-        return view('ubigeo.province', compact('province'));
-
-    }
+//    public function index()
+//    {
+//        $province = DB::table('provinces')
+//            ->select('id', 'department_id', 'ubigeo', 'name', 'is_active')
+//            ->orderBy('name')
+//            ->paginate(50);
+//
+//
+//        return view('ubigeo.province', compact('province'));
+//
+//    }
 
     /**
      * Update the specified resource in storage.
@@ -53,16 +53,56 @@ class ProvinceController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+//    public function show($id)
+//    {
+//        $province = DB::table('provinces')
+//            ->where('department_id', '=', (int)$id)
+//            ->select('id', 'department_id', 'ubigeo', 'name', 'is_active')
+//            ->orderBy('name')
+//            ->simplePaginate(50);
+//        return view('ubigeo.province', compact('province'));
+//    }
+
+    public function index(Request $request)
     {
-        $province = DB::table('provinces')
-            ->where('department_id', '=', (int)$id)
-            ->select('id', 'department_id', 'ubigeo', 'name', 'is_active')
-            ->orderBy('name')
-            ->simplePaginate(50);
-        return view('ubigeo.province', compact('province'));
+        $province = $this->getFilteredProvinces($request);
+        return view('ubigeo.province', [
+            'province' => $province
+        ]);
     }
 
+    public function show($id, Request $request)
+    {
+        $province = $this->getFilteredProvinces($request, $id);
+        return view('ubigeo.province', [
+            'province' => $province,
+            'departmentId' => $id
+        ]);
+    }
+
+    private function getFilteredProvinces(Request $request, $departmentId = null)
+    {
+        $query = DB::table('provinces')
+            ->select('id', 'name', 'department_id', 'is_active');
+
+        if ($departmentId !== null) {
+            $query->where('department_id', '=', (int)$departmentId);
+        }
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('sort')) {
+            $query->orderBy('name', $request->sort);
+        } else {
+            $query->orderBy('id', 'asc');
+        }
+
+        $perPage = $request->input('per_page', 50);
+
+        return $query->paginate($perPage)->appends($request->all());
+    }
 
 }
 

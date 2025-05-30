@@ -13,21 +13,60 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PatientController extends Controller
 {
-    public function index()
+//    public function index()
+//    {
+//        $role = DB::table('roles')
+//            ->where('name', '=', Constants::ROLE_PATIENT)
+//            ->first();
+//
+//        $patients = DB::table('users')
+//            ->join('model_has_roles', function ($join) use ($role) {
+//                $join->on('model_has_roles.model_id', '=', 'users.id')
+//                    ->where('model_has_roles.role_id', '=', $role->id);
+//            })
+////            ->where('users.is_active', '=', true)
+//            ->paginate(50);
+//
+//        return view('users.patient', compact('patients'));
+//    }
+
+    public function index(Request $request)
+    {
+        $patients = $this->getFilteredPatients($request);
+        return view('users.patient', compact('patients'));
+    }
+
+
+    private function getFilteredPatients(Request $request)
     {
         $role = DB::table('roles')
             ->where('name', '=', Constants::ROLE_PATIENT)
             ->first();
 
-        $patients = DB::table('users')
+        $query = DB::table('users')
             ->join('model_has_roles', function ($join) use ($role) {
                 $join->on('model_has_roles.model_id', '=', 'users.id')
                     ->where('model_has_roles.role_id', '=', $role->id);
             })
-//            ->where('users.is_active', '=', true)
-            ->paginate(50);
+            ->select('users.*');
 
-        return view('users.patient', compact('patients'));
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('users.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.last_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.email', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('sort')) {
+            $query->orderBy('users.name', $request->sort);
+        } else {
+            $query->orderBy('users.id', 'asc');
+        }
+
+        $perPage = $request->input('per_page', 50);
+
+        return $query->paginate($perPage)->appends($request->all());
     }
 
     public function update(Request $request, $id)

@@ -14,15 +14,20 @@ class DistrictController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+//    public function index()
+//    {
+//        $district = DB::table('districts')
+//            ->select('id', 'province_id', 'name', 'ubigeo', 'is_active')
+//            ->orderBy('name')
+//            ->paginate(20);
+//        return view('ubigeo.district', compact('district'));
+//    }
+    public function index(Request $request)
     {
-        $district = DB::table('districts')
-            ->select('id', 'province_id', 'name', 'ubigeo', 'is_active')
-            ->orderBy('name')
-            ->paginate(20);
+        $district = $this->getFilteredDistricts($request);
         return view('ubigeo.district', compact('district'));
-
     }
+
 
     /**
      * Display the specified resource.
@@ -30,16 +35,49 @@ class DistrictController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+//    public function show($id)
+//    {
+//        $district = DB::table('districts')
+//            ->where('province_id', '=', (int)$id)
+//            ->select('id', 'province_id', 'ubigeo', 'name', 'is_active')
+//            ->orderBy('name')
+//            ->simplePaginate(50);
+//        return view('ubigeo.district', compact('district'));
+//    }
+    public function show($id, Request $request)
     {
-        $district = DB::table('districts')
-            ->where('province_id', '=', (int)$id)
-            ->select('id', 'province_id', 'ubigeo', 'name', 'is_active')
-            ->orderBy('name')
-            ->simplePaginate(50);
-        return view('ubigeo.district', compact('district'));
+        $district = $this->getFilteredDistricts($request, $id);
+        // return view('ubigeo.district', compact('district'));
+        return view('ubigeo.district', [
+            'district' => $district,
+            'provinceId' => $id
+        ]);
     }
 
+
+    private function getFilteredDistricts(Request $request, $provinceId = null)
+    {
+        $query = DB::table('districts')
+            ->select('id', 'name', 'province_id', 'ubigeo', 'is_active');
+
+        if ($provinceId !== null) {
+            $query->where('province_id', '=', (int)$provinceId);
+        }
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('sort')) {
+            $query->orderBy('name', $request->sort);
+        } else {
+            $query->orderBy('id', 'asc');
+        }
+
+        $perPage = $request->input('per_page', 50);
+
+        return $query->paginate($perPage)->appends($request->all());
+    }
 
     /**
      * Update the specified resource in storage.
