@@ -10,26 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
 {
-//    public function index()
-//    {
-//        $role = DB::table('roles')
-//            ->where('name', '=', Constants::ROLE_PATIENT)
-//            ->first();
-//
-//        $patients = DB::table('users')
-//            ->join('model_has_roles', function ($join) use ($role) {
-//                $join->on('model_has_roles.model_id', '=', 'users.id')
-//                    ->where('model_has_roles.role_id', '=', $role->id);
-//            })
-////            ->where('users.is_active', '=', true)
-//            ->paginate(50);
-//
-//        return view('users.patient', compact('patients'));
-//    }
-
     public function index(Request $request)
     {
         $patients = $this->getFilteredPatients($request);
@@ -88,5 +73,13 @@ class PatientController extends Controller
         return Excel::download(new PatientsDoctorMedicamentExport($id), $filename);
     }
 
+    public function resetPassword($id)
+    {
+        $newPassword = Str::random(8);
+        DB::table('users')
+            ->where('id', $id)
+            ->update(['password' => Hash::make($newPassword)]);
+        return back()->with('success', 'Contraseña reseteada: ' . $newPassword);
+    }
 }
 

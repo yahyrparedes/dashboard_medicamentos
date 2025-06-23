@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('patients', [PatientController::class, 'index'])->name('patients.index');
     Route::patch('patients/{id}', [PatientController::class, 'update'])->name('patients.update');
     Route::post('patients/reports/{id}', [PatientController::class, 'reports'])->name('patients.reports');
+    Route::post('patients/{id}/reset-password', [PatientController::class, 'resetPassword'])->name('patients.reset_password');
 
     Route::get('doctors', [DoctorController::class, 'index'])->name('doctors.index');
     Route::patch('doctors/{id}', [DoctorController::class, 'update'])->name('doctors.update');

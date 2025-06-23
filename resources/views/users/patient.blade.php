@@ -9,7 +9,13 @@
 @endsection
 
 @section('content')
-
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                alert("{{ session('success') }}");
+            });
+        </script>
+    @endif
     <div class="card">
         <div class="card-body">
             <div class="d-md-flex">
@@ -97,6 +103,14 @@
                                 </button>
                             </form>
                         @endif
+                    </td>
+                    <td>
+                        <form method="post" action="{{ route('patients.reset_password', $data->id) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-warning btn-sm">
+                                Resetear Contraseña
+                            </button>
+                        </form>
                     </td>
                     <td>
                         <form method="post" action="{{ route('patients.reports',  $data->id)}}">
