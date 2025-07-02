@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +67,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+//    'timezone' => 'America/Lima',
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -229,7 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Token'=>\Dirape\Token\Facades\Facade::class,
+        'Token' => \Dirape\Token\Facades\Facade::class,
     ],
 
 ];

@@ -60,7 +60,10 @@ return [
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '-05:00'"
+            ]) : [
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '-05:00'"
+            ],
         ],
 
         'pgsql' => [
@@ -123,7 +126,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
