@@ -54,6 +54,7 @@ class DoctorController extends Controller
             $query->where(function ($q) use ($request) {
                 $q->where('users.name', 'like', '%' . $request->search . '%')
                     ->orWhere('users.last_name', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.cmp', 'like', '%' . $request->search . '%')
                     ->orWhere('users.email', 'like', '%' . $request->search . '%');
             });
         }
