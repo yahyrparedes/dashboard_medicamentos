@@ -35,6 +35,6 @@ class ImportMedicationStockController extends Controller
 
         Excel::import(new MedicationClass(), $file);
 
-        return redirect()->back()->with('success', 'Excel file imported successfully!');
+        return redirect()->back()->with('success', 'Importación completada correctamente.');
     }
 }

@@ -3,8 +3,6 @@
 namespace App\Imports;
 
 //use App\Models\Pharmacy;
-use App\Models\Pharmacy;
-use App\Models\PharmacyStore;
 use App\Models\User;
 use App\Utils\Constants;
 use App\Utils\Tools;
@@ -80,8 +78,8 @@ class DoctorClass implements ToModel, WithHeadingRow
             $row['colegio_medico'] = '000000';
         }
 
-        if(!isset($row['e_mail']) || $row['e_mail'] == '' || $row['e_mail'] == null) {
-            $row['e_mail'] =  'empty_doctor_' . $row['colegio_medico'] .  '@lansier.com' ;
+        if (!isset($row['e_mail']) || $row['e_mail'] == '' || $row['e_mail'] == null) {
+            $row['e_mail'] = 'empty_doctor_' . $row['colegio_medico'] . '@lansier.com';
         }
 
         $data = [
@@ -98,7 +96,31 @@ class DoctorClass implements ToModel, WithHeadingRow
             "updated_at" => now(),
             "email" => $row['e_mail']
         ];
-        return User::updateOrCreate(['cmp' => $row['colegio_medico']], $data)->assignRole(Constants::ROLE_DOCTOR);
+
+        $doctor = User::where('cmp', $row['colegio_medico'])->first();
+        if ($doctor ) {
+            $doctor->update(array_diff_key($data, ['password' => '']));
+        } else {
+            $doctor = User::create($data);
+        }
+        $doctor->assignRole(Constants::ROLE_DOCTOR);
+        return $doctor;
+        // old code
+//        $data = [
+//            "cmp" => $row['colegio_medico'],
+//            "name" => $firstName,
+//            "last_name" => $lastName,
+//            "phone" => $phone,
+//            "ubigeo" => $district?->ubigeo,
+//            "email_verified_at" => now(),
+//            "password" => bcrypt('Lansier123456'),
+//            "is_active" => true,
+//            "is_imported" => true,
+//            "created_at" => now(),
+//            "updated_at" => now(),
+//            "email" => $row['e_mail']
+//        ];
+//        return User::updateOrCreate(['email' => $row['e_mail']], $data)->assignRole(Constants::ROLE_DOCTOR);
     }
 
     public function headingRow(): int

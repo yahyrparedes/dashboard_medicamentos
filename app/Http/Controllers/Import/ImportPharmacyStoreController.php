@@ -32,9 +32,7 @@ class ImportPharmacyStoreController extends Controller
         // Get the uploaded file
         $file = $request->file('file');
 
-
         Excel::import(new PharmacyStoreClass(), $file);
-
-        return redirect()->back()->with('success', 'Excel file imported successfully!');
+        return redirect()->back()->with('success', 'Importación completada correctamente.');
     }
 }
