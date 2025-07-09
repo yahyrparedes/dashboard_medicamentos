@@ -76,6 +76,14 @@ class DoctorClass implements ToModel, WithHeadingRow
             $lastName = '';
         }
 
+        if ($row['colegio_medico'] == '' || $row['colegio_medico'] == null) {
+            $row['colegio_medico'] = '000000';
+        }
+
+        if(!isset($row['e_mail']) || $row['e_mail'] == '' || $row['e_mail'] == null) {
+            $row['e_mail'] =  'empty_doctor_' . $row['colegio_medico'] .  '@lansier.com' ;
+        }
+
         $data = [
             "cmp" => $row['colegio_medico'],
             "name" => $firstName,
@@ -90,7 +98,7 @@ class DoctorClass implements ToModel, WithHeadingRow
             "updated_at" => now(),
             "email" => $row['e_mail']
         ];
-        return User::updateOrCreate(['email' => $row['e_mail']], $data)->assignRole(Constants::ROLE_DOCTOR);
+        return User::updateOrCreate(['cmp' => $row['colegio_medico']], $data)->assignRole(Constants::ROLE_DOCTOR);
     }
 
     public function headingRow(): int
